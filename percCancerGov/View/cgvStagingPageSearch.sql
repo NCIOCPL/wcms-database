@@ -17,7 +17,7 @@ contentid, Short_Description , short_title, long_title, meta_keywords, legacy_se
  when '5' then Date_first_published
  else date_last_modified
 end as 'Date'
-
+, subheader
 from dbo.cgvStagingPageMetaData p
 
 
