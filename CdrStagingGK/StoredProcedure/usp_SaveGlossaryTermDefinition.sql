@@ -11,12 +11,12 @@ GO
 *
 *	Objects Used:
 *
-*	Change History:
+*	Change History: Prasad(06/03) Added a new column to support audio media html.
 
 *	To Do List:
 *
 */
-CREATE PROCEDURE dbo.usp_SaveGlossaryTermDefinition
+CREATE PROCEDURE [dbo].[usp_SaveGlossaryTermDefinition]
 	(   @GlossaryTermDefinitionID int output,
 		@GlossaryTermID int, 
 		@DefinitionText varchar(3900), 
@@ -24,6 +24,7 @@ CREATE PROCEDURE dbo.usp_SaveGlossaryTermDefinition
 		@Language varchar(20), 
 		@UpdateUserID varchar(50), 
 		@MediaHTML ntext, 
+		@AudioMediaHTML ntext, 
 		@isDebug bit = 0
 	)
  AS
@@ -37,9 +38,10 @@ BEGIN
 		(	GlossaryTermID,
 			DefinitionText,
 			DefinitionHTML,
-			Language,
+			[Language],
 			UpdateUserID,
 			MediaHTML,
+			AudioMediaHTML,
 			UpdateDate)
 	values(
 		@GlossaryTermID,
@@ -48,6 +50,7 @@ BEGIN
 		@Language,
 		@UpdateUserID,
 		@MediaHTML,
+		@AudioMediaHTML,
 		@UpdateDate)
 
 	IF (@@ERROR <> 0)
