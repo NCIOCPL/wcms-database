@@ -23,10 +23,14 @@ BEGIN
 
 		ELSE		
 			BEGIN
-					select top 10 termname
+					select termname from
+					(
+					select distinct top 10 termname, weight
 						from dbo.autosuggest_english
 						where termword like  @s + '%'
 						order by weight desc, termname
+					) a
+					order by weight desc, termname
 		END
 
 END
