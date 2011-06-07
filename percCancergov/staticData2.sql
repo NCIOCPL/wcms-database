@@ -342,3 +342,12 @@ insert dbo.autosuggest_es_misspell(termname,misspell) values ('linfoma de Hodgki
 insert dbo.autosuggest_es_misspell(termname,misspell) values ('linfoma no Hodgkin ','linfoma no hodkin')
 insert dbo.autosuggest_es_misspell(termname,misspell) values ('quimioterapia','quimio')
 insert dbo.autosuggest_es_misspell(termname,misspell) values ('quimioterapia','quimoterapia')
+
+
+---------
+
+delete from autosuggest_english
+where len(termword) < 3
+
+delete from autosuggest_spanish
+where len(termword) < 3
