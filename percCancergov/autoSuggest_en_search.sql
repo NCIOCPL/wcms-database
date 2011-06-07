@@ -32,3 +32,4 @@ BEGIN
 END
 
 go
+grant execute on autosuggest_en_search to CDEUser
