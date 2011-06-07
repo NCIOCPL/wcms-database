@@ -23,12 +23,20 @@ BEGIN
 
 		ELSE		
 			BEGIN
-					select top 10 termname
+
+					select termname from
+					(
+					select distinct top 10 termname, weight
 						from dbo.autosuggest_spanish
 						where termword like  @s + '%'
 						order by weight desc, termname
+					) a
+					order by weight desc, termname
 		END
 
 END
 
 go
+
+grant execute on autosuggest_es_search to CDEUser
+
