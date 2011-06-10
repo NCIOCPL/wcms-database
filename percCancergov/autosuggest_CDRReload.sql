@@ -9,7 +9,7 @@ BEGIN
 	delete from autosuggest_english where category = 10
 	insert into autosuggest_english(termname, category, weight, termword)
 	select  distinct termname, 10, 1 ,s.objectid
-	from cdrlivegk..glossaryterm t  cross apply dbo.stringsplit(termname) s
+	from cdrlivegk..glossaryterm t  cross apply dbo.autosuggest_stringSplit(termname) s
 	where 
 		termname not in (select termname from autosuggest_english)
 		and termname not in (select termname from autosuggest_en_exclude)
@@ -26,7 +26,7 @@ BEGIN
 	insert into autosuggest_spanish(termname, category, weight, termword)
 	select distinct spanishtermname, 10, 1 , s.objectid
 	from cdrlivegk..glossaryterm t  
-	cross apply dbo.stringsplit(spanishtermname) s
+	cross apply dbo.autosuggest_stringSplit(spanishtermname) s
 	where spanishtermname is not null
 	and spanishtermname collate modern_spanish_CI_AI  
 			not in (select termname from autosuggest_spanish) 
