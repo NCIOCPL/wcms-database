@@ -14,6 +14,8 @@ BEGIN
 			then dbo.percreport_getitemfolderpath(o.ownerid)
 			when  dbo.percReport_getpretty_url_name(o.ownerid) = '***' 
 			then o.ownertitle
+			when dbo.percreport_getitemfolderpath(o.ownerid)  like 'CancerGov/PrivateArchive%'  
+				then NULL  
 			ELSE dbo.percreport_getitemfolderpath(o.ownerid) + 
 			 case when dbo.percReport_getpretty_url_name(o.ownerid) is null 
 					then '' ELSE '/' +  dbo.percReport_getpretty_url_name(o.ownerid)	END 
