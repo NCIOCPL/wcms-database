@@ -29,13 +29,29 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 
 		select 
 		c.contentid as EnglishContentid, c.title as EnglishTitle
-		, dbo.percreport_getitemfolderpath(c.contentid) + isnull(dbo.percReport_getpretty_url_name(c.contentid),'')
+		, case    
+		   when  dbo.percReport_getpretty_url_name(c.contentid) = '***'   
+		   then NULL  
+		   when dbo.percreport_getitemfolderpath(c.contentid)  like 'CancerGov/PrivateArchive%'  
+		   then NULL  
+		   ELSE dbo.percreport_getitemfolderpath(c.contentid) +   
+			case when dbo.percReport_getpretty_url_name(c.contentid) is null   
+			 then '' ELSE '/' +  dbo.percReport_getpretty_url_name(c.contentid) END   
+			END 
 		as EnglishPrettyurl	
 		,c. contentcreateddate as EnglishCreateDate
 		,c. contentlastmodifieddate as EnglishLastModifyDate
 		, c.locale
 		,d.contentid as SpanishContentid, d.title as SpanishTitle
-		, dbo.percreport_getitemfolderpath(d.contentid) + isnull(dbo.percReport_getpretty_url_name(d.contentid),'')
+		, case    
+		   when  dbo.percReport_getpretty_url_name(d.contentid) = '***'   
+		   then NULL  
+		   when dbo.percreport_getitemfolderpath(d.contentid)  like 'CancerGov/PrivateArchive%'  
+		   then NULL  
+		   ELSE dbo.percreport_getitemfolderpath(d.contentid) +   
+			case when dbo.percReport_getpretty_url_name(d.contentid) is null   
+			 then '' ELSE '/' +  dbo.percReport_getpretty_url_name(d.contentid) END   
+			END 
 		as SpanishPrettyurl
 		,d. contentcreateddate as SpanishCreatedate
 		,d. contentlastmodifieddate as SpanishLastModifydate
@@ -51,11 +67,29 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 		inner join dbo.contentstatus d on d.contentid = r.dependent_id and r.config_id in (6,7)
 		union 
 		select
-		o.contentid, o.title, dbo.percreport_getitemfolderpath(o.contentid) + isnull(dbo.percReport_getpretty_url_name(o.contentid),'')
+		o.contentid, o.title
+		, case    
+		   when  dbo.percReport_getpretty_url_name(o.contentid) = '***'   
+		   then NULL  
+		   when dbo.percreport_getitemfolderpath(o.contentid)  like 'CancerGov/PrivateArchive%'  
+		   then NULL  
+		   ELSE dbo.percreport_getitemfolderpath(o.contentid) +   
+			case when dbo.percReport_getpretty_url_name(o.contentid) is null   
+			 then '' ELSE '/' +  dbo.percReport_getpretty_url_name(o.contentid) END   
+			END 
 		,o. contentcreateddate
 		,o. contentlastmodifieddate
 		, o.locale
-		,c.contentid, c.title, dbo.percreport_getitemfolderpath(c.contentid) + isnull(dbo.percReport_getpretty_url_name(c.contentid),'')
+		,c.contentid, c.title
+		, case    
+		   when  dbo.percReport_getpretty_url_name(c.contentid) = '***'   
+		   then NULL  
+		   when dbo.percreport_getitemfolderpath(c.contentid)  like 'CancerGov/PrivateArchive%'  
+		   then NULL  
+		   ELSE dbo.percreport_getitemfolderpath(c.contentid) +   
+			case when dbo.percReport_getpretty_url_name(c.contentid) is null   
+			 then '' ELSE '/' +  dbo.percReport_getpretty_url_name(c.contentid) END   
+			END 
 		,c. contentcreateddate
 		,c. contentlastmodifieddate
 		, c.locale
