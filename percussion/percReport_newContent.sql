@@ -28,7 +28,16 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 			  select ID, path  from folders
 
 	select distinct c.contentid, c.title, t.contenttypename
-		, dbo.percReport_getItemfolderpath(c.contentid)
+		, case 	
+			when  dbo.percReport_getpretty_url_name(c.contentid) = '***' 
+			then NULL
+			when dbo.percreport_getitemfolderpath(c.contentid)  like 'CancerGov/PrivateArchive%'
+			then NULL
+			ELSE dbo.percreport_getitemfolderpath(c.contentid) + 
+			 case when dbo.percReport_getpretty_url_name(c.contentid) is null 
+					then '' ELSE '/' +  dbo.percReport_getpretty_url_name(c.contentid)	END 
+				END as prettyurl
+
 		, contentcreateddate
 		, contentlastmodifieddate
 	from contentstatus c 
