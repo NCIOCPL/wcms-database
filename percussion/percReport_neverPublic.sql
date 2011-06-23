@@ -37,7 +37,15 @@ create table #folder (ID int, path varchar(900))
 		(
 		select c.contentid
 			, t.contenttypelabel
-			, dbo.percreport_getitemfolderpath(c.contentid) as path
+			, case    
+   when  dbo.percReport_getpretty_url_name(c.contentid) = '***'   
+   then NULL  
+   when dbo.percreport_getitemfolderpath(c.contentid)  like 'CancerGov/PrivateArchive%'  
+   then NULL  
+   ELSE dbo.percreport_getitemfolderpath(c.contentid) +   
+    case when dbo.percReport_getpretty_url_name(c.contentid) is null   
+     then '' ELSE '/' +  dbo.percReport_getpretty_url_name(c.contentid) END   
+    END as prettyurl  
 			, title
 			,statename from contentstatus c
 			inner join contenttypes t on t.contenttypeid = c.contenttypeid
