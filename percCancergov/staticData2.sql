@@ -1,16 +1,15 @@
-set identity_insert autosuggest_spanish on
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289600,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Antitranspirantes')
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289601,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'desodorantes')
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289602,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'cáncer')
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289603,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'seno')
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289604,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'preguntas')
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289605,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'respuestas')
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289606,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Antiperspirants/Deodorants')
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289607,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Breast')
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289608,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Cancer')
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289609,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Questions')
-insert dbo.autosuggest_spanish(c,termname,weight,category,termword) values (289610,'Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Answers')
-set identity_insert autosuggest_spanish off
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Antitranspirantes')
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'desodorantes')
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'cáncer')
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'seno')
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'preguntas')
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'respuestas')
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Antiperspirants/Deodorants')
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Breast')
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Cancer')
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Questions')
+insert dbo.autosuggest_spanish(termname,weight,category,termword) values ('Antitranspirantes o desodorantes y el cáncer de seno: preguntas y respuestas (Antiperspirants/Deodorants and Breast Cancer: Questions and Answers)',1,100,'Answers')
+
 
 insert dbo.autosuggest_en_misspell(termname,misspell) values ('AccrualNet','accrual net')
 insert dbo.autosuggest_en_misspell(termname,misspell) values ('acupuncture','accupuncture')
