@@ -60,10 +60,10 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 		and c.locale = 'en-us'
 		inner join #folder f on f.id = ff.owner_id
 		inner join dbo.psx_objectrelationship r on c.contentid = r.owner_id and 
-				(r.owner_revision = -1 or r.owner_revision = c.public_revision
+				(r.owner_revision = c.public_revision
 					or r.owner_revision = c.currentrevision
 					or r.owner_revision = c.editrevision
-					or r.owner_revision = c.tiprevision)
+					)
 		inner join dbo.contentstatus d on d.contentid = r.dependent_id and r.config_id in (6,7)
 		union 
 		select

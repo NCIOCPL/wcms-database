@@ -17,7 +17,7 @@ BEGIN
 		BEGIN
 
 			select @subpage = 'page' + convert(varchar(3),r.sort_rank +1) from psx_objectrelationship r inner join contentstatus c on r.owner_id = c.contentid
-			and (r.owner_revision = -1 or r.owner_revision = c.public_revision)
+			and (r.owner_revision = c.public_revision)
 			where dependent_id = @contentid and config_id = 112
 			if @subpage is not null
 				select @prettyurl = isnull(pretty_url_name,'') + isnull( @subpage, '') from
