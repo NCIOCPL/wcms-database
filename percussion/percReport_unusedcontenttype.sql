@@ -21,14 +21,12 @@ BEGIN
 					not exists (
 								select * from psx_objectrelationship r inner join dbo.contentstatus c1
 												on c1.contentid = r.owner_id and
-												(r.owner_revision = -1 or
-													r.owner_revision = c1.public_revision
+												(	r.owner_revision = c1.public_revision
 													or
 													r.owner_revision = c1.currentrevision
 													or 
 													r.owner_revision = c1.editrevision
-													or 
-													r.owner_revision = c1.tiprevision
+													
 												)
 								where r.dependent_id = c.contentid
 										
