@@ -16,10 +16,8 @@ select distinct b.contentid as dependentid, b.contenttypelabel as dependenttype
 										inner join contenttypes t on c.contenttypeid = t.contenttypeid
 										inner join dbo.psx_objectrelationship r on r.dependent_id = c.contentid and r.config_id <>3 
 										inner join dbo.contentstatus o on o.contentid = r.owner_id 
-												and (r.owner_revision = -1 
-														or r.owner_revision = o.public_revision
+												and (  r.owner_revision = o.public_revision
 														or r.owner_revision = o.currentrevision
-														or r.owner_revision = o.tiprevision
 														or r.owner_revision = o.editrevision) 
 										where contenttypename  in
 										(
