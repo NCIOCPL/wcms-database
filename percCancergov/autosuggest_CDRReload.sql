@@ -39,6 +39,26 @@ BEGIN
 	set a.weight  = 1 , a.category = 10
 	from autosuggest_spanish a inner join cdrlivegk..glossaryterm b on a.termname  = b.spanishtermname collate Modern_Spanish_CI_AI
 	where a.category > 10
+	
+	
+			
+		delete from autosuggest_english
+		where len(termword) < 3
+
+		delete from autosuggest_spanish
+		where len(termword) < 3
+
+
+
+		delete e
+		from autosuggest_english e inner join autosuggest_en_misspell s 
+		on e.termname = s.misspell
+
+
+		delete e
+		from autosuggest_spanish e inner join autosuggest_es_misspell s 
+		on e.termname = s.misspell
+
 END
 GO
 
