@@ -364,3 +364,14 @@ where len(termword) < 3
 
 delete from autosuggest_spanish
 where len(termword) < 3
+
+
+
+delete e
+from autosuggest_english e inner join autosuggest_en_misspell s 
+on e.termname = s.misspell
+
+
+delete e
+from autosuggest_spanish e inner join autosuggest_es_misspell s 
+on e.termname = s.misspell
