@@ -375,3 +375,8 @@ on e.termname = s.misspell
 delete e
 from autosuggest_spanish e inner join autosuggest_es_misspell s 
 on e.termname = s.misspell
+
+
+delete from autosuggest_spanish where category = 100
+
+
