@@ -7,11 +7,7 @@ BEGIN
 	
 	declare @s varchar(100)
 	select @s = ltrim(rtrim(@t))
-
-	select @s = isnull( termname , @s)
-					from dbo.autosuggest_es_misspell
-					where misspell = @s 
-
+	
 	if @s like '% %'
 		BEGIN
 				select top 10  termname
