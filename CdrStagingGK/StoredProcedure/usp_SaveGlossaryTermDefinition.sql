@@ -25,6 +25,7 @@ CREATE PROCEDURE [dbo].[usp_SaveGlossaryTermDefinition]
 		@UpdateUserID varchar(50), 
 		@MediaHTML ntext, 
 		@AudioMediaHTML ntext, 
+		@RelatedInformationHtml ntext, 
 		@isDebug bit = 0
 	)
  AS
@@ -42,6 +43,7 @@ BEGIN
 			UpdateUserID,
 			MediaHTML,
 			AudioMediaHTML,
+			RelatedInformationHtml, 
 			UpdateDate)
 	values(
 		@GlossaryTermID,
@@ -51,6 +53,7 @@ BEGIN
 		@UpdateUserID,
 		@MediaHTML,
 		@AudioMediaHTML,
+		@RelatedInformationHtml,
 		@UpdateDate)
 
 	IF (@@ERROR <> 0)
