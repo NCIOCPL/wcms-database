@@ -94,7 +94,9 @@ BEGIN
 		Language, 
 		UpdateDate, 
 		UpdateUserID,
-		MediaHTML
+		MediaHTML,
+		AudioMediaHTML,
+		RelatedInformationHtml
 		)
 	SELECT 	GlossaryTermDefinitionID, 
 		GlossaryTermID, 
@@ -103,7 +105,9 @@ BEGIN
 		Language, 
 		@UpdateDate,
 		@UpdateUserID,
-		MediaHTML
+		MediaHTML,
+		AudioMediaHTML,
+		RelatedInformationHtml
 	FROM 	CDRPreviewGK..GlossaryTermDefinition
 	WHERE 	GlossaryTermID = @DocumentID 	
 
