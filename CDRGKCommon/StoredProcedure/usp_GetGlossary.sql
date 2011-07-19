@@ -9,7 +9,7 @@ GO
 	Purpose:	
 	Change history:	11/09/2004	Lijia
 	9/8/2006	Vadim Prvotorov Add selection for Spanish
-
+	06/03/2011  Prasad Betnag - Return AudioMediaHtml column
 **********************************************************************************/
 
 CREATE PROCEDURE [dbo].[usp_GetGlossary]
@@ -25,7 +25,10 @@ BEGIN
 		BEGIN
 				IF (@Language  = 'ENGLISH')
 					BEGIN
-						SELECT gt.GlossaryTermID, gt.TermName, gt.TermPronunciation, gt.SpanishTermName as OLTermName, gtd.DefinitionHTML,ISNULL(gtd.MediaHTML,'') MediaHTML
+						SELECT gt.GlossaryTermID, gt.TermName, gt.TermPronunciation, gt.SpanishTermName as OLTermName, gtd.DefinitionHTML,
+								ISNULL(gtd.MediaHTML,'') MediaHTML, 
+								ISNULL(gtd.AudioMediaHTML,'') AudioMediaHTML,
+								ISNULL(gtd.RelatedInformationHtml,'') RelatedInformationHtml
 						FROM GlossaryTerm gt, GlossaryTermDefinition gtd, GlossaryTermDefinitionAudience  gtda, GlossaryTermDefinitionDictionary gtdd
 						WHERE TermName like 
 						case @Criteria when '[0-9]%' 
@@ -42,7 +45,10 @@ BEGIN
 					END
 				ELSE
 					BEGIN
-						SELECT gt.GlossaryTermID, gt.SpanishTermName as TermName, NULL as TermPronunciation, gt.TermName as OLTermName, gtd.DefinitionHTML,ISNULL(gtd.MediaHTML,'') MediaHTML
+						SELECT gt.GlossaryTermID, gt.SpanishTermName as TermName, NULL as TermPronunciation, gt.TermName as OLTermName, gtd.DefinitionHTML, 
+								ISNULL(gtd.MediaHTML,'') MediaHTML, 
+								ISNULL(gtd.AudioMediaHTML,'') AudioMediaHTML,
+								ISNULL(gtd.RelatedInformationHtml,'') RelatedInformationHtml
 						FROM GlossaryTerm gt, GlossaryTermDefinition gtd, GlossaryTermDefinitionAudience  gtda, GlossaryTermDefinitionDictionary gtdd
 						WHERE SpanishTermName collate modern_spanish_CI_AI 
 						LIKE 
@@ -63,7 +69,10 @@ BEGIN
 				BEGIN
 					 IF (@Language  = 'ENGLISH')  
 					  BEGIN  
-					   SELECT top (@topN) gt.GlossaryTermID, gt.TermName, gt.TermPronunciation, gt.SpanishTermName as OLTermName, gtd.DefinitionHTML,ISNULL(gtd.MediaHTML,'') MediaHTML
+					   SELECT top (@topN) gt.GlossaryTermID, gt.TermName, gt.TermPronunciation, gt.SpanishTermName as OLTermName, gtd.DefinitionHTML, 
+							ISNULL(gtd.MediaHTML,'') MediaHTML, 
+							ISNULL(gtd.AudioMediaHTML,'') AudioMediaHTML,
+							ISNULL(gtd.RelatedInformationHtml,'') RelatedInformationHtml
 					   FROM GlossaryTerm gt, GlossaryTermDefinition gtd, GlossaryTermDefinitionAudience  gtda, GlossaryTermDefinitionDictionary gtdd  
 					   WHERE TermName 
 					   LIKE case @Criteria when '[0-9]%' 
@@ -80,7 +89,10 @@ BEGIN
 					  END  
 					 ELSE  
 					  BEGIN  
-					   SELECT top (@topN) gt.GlossaryTermID, gt.SpanishTermName as TermName, NULL as TermPronunciation, gt.TermName as OLTermName, gtd.DefinitionHTML,ISNULL(gtd.MediaHTML,'') MediaHTML
+					   SELECT top (@topN) gt.GlossaryTermID, gt.SpanishTermName as TermName, NULL as TermPronunciation, gt.TermName as OLTermName, gtd.DefinitionHTML, 
+									ISNULL(gtd.MediaHTML,'') MediaHTML, 
+									ISNULL(gtd.AudioMediaHTML,'') AudioMediaHTML,
+									ISNULL(gtd.RelatedInformationHtml,'') RelatedInformationHtml
 					   FROM GlossaryTerm gt, GlossaryTermDefinition gtd, GlossaryTermDefinitionAudience  gtda, GlossaryTermDefinitionDictionary gtdd  
 					   WHERE SpanishTermName collate modern_spanish_CI_AI 
 					   LIKE case @Criteria when '[0-9]%' 
