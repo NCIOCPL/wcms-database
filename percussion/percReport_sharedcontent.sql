@@ -27,7 +27,7 @@ BEGIN
 				inner join contentstatus c on c.contentid = d.dependentid
 				inner join psx_objectrelationship r on r.dependent_id = d.dependentid
 					and config_id <>3 
-				inner join contentstatus o on o.contentid = r.owner_id and (r.owner_revision = -1 or r.owner_revision = c.public_revision)
+				inner join contentstatus o on o.contentid = r.owner_id and (r.owner_revision = -1 or r.owner_revision = o.public_revision)
 				inner join contenttypes t on t.contenttypeid = o.contenttypeid
 				where @contentid is null or d.dependentid = @contentid
 			) o
