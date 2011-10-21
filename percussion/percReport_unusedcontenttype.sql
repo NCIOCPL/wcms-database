@@ -35,28 +35,8 @@ BEGIN
 
 									and contenttypename in
 									(
-									'cgvBanner',	
-									'cgvBookletPage',
-									'cgvCancerBulletinPage',
-									'cgvDocTitleBlock',	
-									'cgvDynamicList',	
-									'cgvMicrositeIndex',	
-									'cgvPageOptionsBox',
-									'cgvPowerPointPage',
-									'cgvSiteFooter',	
-									'cgvTileCarousel',	
-									'cgvTimelyContentBlock',
-									'cgvTimelyContentFeature',
-									'cgvTopicSearch',	
-									'nciAppWidget',	
-									'nciContentHeader',	
-									'nciDocFragment',	
-									'nciForm',	
-									'nciImage',	
-									'nciLink',	
-									'nciList',	
-									'nciSectionNav',	
-									'nciTile'
+									select contenttypename from dbo.percReport_contenttype
+									where type = 'supporting'
 
 									)
 					)a

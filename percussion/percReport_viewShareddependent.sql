@@ -20,29 +20,8 @@ select distinct b.contentid as dependentid, b.contenttypelabel as dependenttype
 														or r.owner_revision = o.currentrevision
 														or r.owner_revision = o.editrevision) 
 										where contenttypename  in
-										(
-																		'cgvBanner',	
-																		'cgvBookletPage',
-																		'cgvCancerBulletinPage',
-																		'cgvDocTitleBlock',	
-																		'cgvDynamicList',	
-																		'cgvMicrositeIndex',	
-																		'cgvPageOptionsBox',
-																		'cgvPowerPointPage',
-																		'cgvSiteFooter',	
-																		'cgvTileCarousel',	
-																		'cgvTimelyContentBlock',
-																		'cgvTimelyContentFeature',
-																		'cgvTopicSearch',	
-																		'nciAppWidget',	
-																		'nciContentHeader',	
-																		'nciDocFragment',	
-																		'nciForm',	
-																		'nciImage',	
-																		'nciLink',	
-																		'nciList',	
-																		'nciSectionNav',	
-																		'nciTile'
+										(select contenttypename from percReport_contenttype 
+												where type = 'supporting'											
 
 																	)	
 											--and contentid = 							

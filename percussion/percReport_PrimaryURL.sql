@@ -38,6 +38,7 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 
 
 
+
 		select c.contentid, left(c.title, len(c.title)-7)
 		, f.path+ case when p.pretty_url_name is null then '' ELSE '/' + pretty_url_name END as primaryURL
 		, t.contenttypename
@@ -49,27 +50,8 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 		and p.revisionid = c.public_revision
 		where public_revision is not null and r.config_id =3
 		 and t.contenttypename in 
-						('cgvBooklet',
-						'cgvCancerBulletin',
-						'cgvCancerTypeHome',
-						'cgvClinicalTrialResult',
-						'cgvDrugInfoSummary',
-						'cgvFactSheet',
-						'cgvFeaturedClinicalTrial',
-						'cgvPowerPoint',
-						'cgvPressRelease',
-						'nciAppModulePage',
-						'nciErrorPage',
-						'nciForm',
-						'nciGeneral',
-						'nciHome',
-						'nciLandingPage',
-						'gloImage',
-						'gloVideo',
-						'pdqCancerInfoSummary',
-						'pdqDrugInfoSummary'
-						, 'nciFile'
-						)
+						(select contenttypename from dbo.percReport_contenttype
+						where type = 'page')
 		union all
 
 		select c1.contentid, c1.title
