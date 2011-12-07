@@ -18,7 +18,7 @@ GO
 
 
 CREATE PROCEDURE [dbo].usp_CopyRequestData
-	@RequestDataIDs	varchar(8000),-- CDR group's ID for the associated request
+	@RequestDataIDs	nvarchar(MAX),-- CDR group's ID for the associated request
 	@RequestID int,				-- Request Id 
 	@updateUserID varchar(255), --userid
 	@Status_Code int OUTPUT,
