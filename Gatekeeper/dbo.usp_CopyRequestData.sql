@@ -79,9 +79,9 @@ BEGIN
 					DataSetID,
 					CDRID,
 					CDRVersion,
-					[Status],
-					DependencyStatus,
-					Location,
+					'OK',--Status
+					'OK',--DependencyStatus
+					'Gatekeeper',--Location
 					GroupID,
 					GETDATE(),
 					0
