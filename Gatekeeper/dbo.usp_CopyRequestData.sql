@@ -47,6 +47,10 @@ BEGIN
 
 		Declare @oldRequestDataId INT
 		Declare @RequestDataId INT
+		Declare @seqCount INT
+		
+		--use this value for both packet number and groupdid
+		Set @seqCount = 0
 		
 		Declare oldRequestDataCursor CURSOR FOR Select [requestDataId] From @OutputTable;
 		
@@ -59,7 +63,7 @@ BEGIN
 		BEGIN
 			SET @Status_Code = 0
 			SET @Status_Text = 'OK'
-
+			Set @seqCount = @seqCount + 1	
 			-- Store the RequestData metadata.
 			Insert Into dbo.RequestData(RequestID,
 									PacketNumber,
@@ -74,7 +78,7 @@ BEGIN
 									ReceivedDate,
 									isArchived)
 			Select @RequestID,
-					PacketNumber,
+					@seqCount,
 					ActionType,
 					DataSetID,
 					CDRID,
@@ -82,7 +86,7 @@ BEGIN
 					'OK',--Status
 					'OK',--DependencyStatus
 					'Gatekeeper',--Location
-					GroupID,
+					@seqCount,
 					GETDATE(),
 					0
 			FROM dbo.RequestData
