@@ -24,7 +24,7 @@ CREATE PROCEDURE [dbo].[usp_SaveGlossaryTermDefinition]
 		@Language varchar(20), 
 		@UpdateUserID varchar(50), 
 		@MediaHTML ntext,
-		@MediaCaption varchar(3900),
+		@MediaCaption nvarchar(max),
 		@MediaID int,
 		@AudioMediaHTML ntext, 
 		@RelatedInformationHtml ntext, 
