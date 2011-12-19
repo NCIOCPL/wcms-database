@@ -49,7 +49,7 @@ BEGIN
 	select @where = ' site = ''' + @siteName + ''''
 
 		if @keyword is not NULL
-			select @where =  ' contentid in		(		select distinct contentid		 from   dbo.cgvPageSearch   p inner join dbo.udf_stringSplit(''' + 
+			select @where =  @where + ' and contentid in		(		select distinct contentid		 from   dbo.cgvPageSearch   p inner join dbo.udf_stringSplit(''' + 
 				@keyword + ''', '' '') a on p.meta_keywords like ''%''+ a.objectid + ''%''  )' 
 	
 	if @searchfilter is not NULL and @searchfilter <> ''
