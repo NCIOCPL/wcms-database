@@ -26,19 +26,8 @@ BEGIN
      (select DTDVersion  
      from dbo.request   
      where requestid= t.Maxreqid ) AS gateKeeperDTDVersion, 
-     (select CompleteReceivedTime
-     from dbo.request   
-     where requestid= t.Maxreqid ) AS CompleteReceivedTime, 
-	(select ExternalRequestID
-     from dbo.request   
-     where requestid= t.Maxreqid ) AS ExternalRequestID, 
      MaxRequestDataID as gateKeeperRequestDataID,  
      t.ReceivedDate AS gatekeeperDateTime, t.DataSetID AS DocType,  
-	(select groupid from requestdata where requestdataid = t.maxrequestdataid ) as GKGroupID,
-	(select actiontype from requestdata where requestdataid = t.maxrequestdataid ) as actiontype,
-	(select status  
-     from dbo.request   
-     where requestid= t.Maxreqid ) AS Status,
 	(select requestID from dbo.RequestData   
      where RequestDataID = l.stagingrequestDataID) AS staging,  
      (select DTDVersion   
@@ -57,8 +46,17 @@ BEGIN
       from Dbo.request r inner join dbo.RequestData rd on r.requestid = rd.requestid  
       where RequestDataID = l.liverequestDataID) AS liveDTDVersion,  
      l.liveUpdateTime AS liveDateTime,  
-     l.liveRequestDataID  
-       
+     l.liveRequestDataID  ,
+     (select CompleteReceivedTime
+     from dbo.request  r inner join dbo.requestdata rd on r.requestid = rd.requestid  
+      where RequestDataID = l.liverequestDataID) AS CompleteReceivedTime, 
+	 (select externalrequestID
+     from dbo.request  r inner join dbo.requestdata rd on r.requestid = rd.requestid  
+      where RequestDataID = l.liverequestDataID) AS externalrequestID,
+	(select groupid from requestdata where requestdataid = l.liverequestDataID) as GroupID,
+	(select actiontype from requestdata where requestdataid = l.liverequestDataID ) as actiontype,
+	(select r.status from dbo.request r inner join dbo.requestdata rd on r.requestid = rd.requestid  
+      where RequestDataID = l.liverequestDataID ) AS Status
     FROM   
      (SELECT t1.CDRID, t1.MaxReqID, rd.ReceivedDate, rd.DataSetID, rd.actiontype,  rd.requestDataID as MaxRequestDataID  
       FROM   
@@ -81,21 +79,9 @@ BEGIN
      (select DTDVersion  
      from dbo.request   
      where requestid= t.Maxreqid ) AS gateKeeperDTDVersion,   
-  (select CompleteReceivedTime
-     from dbo.request   
-     where requestid= t.Maxreqid ) AS CompleteReceivedTime, 
-	(select ExternalRequestID
-     from dbo.request   
-     where requestid= t.Maxreqid ) AS ExternalRequestID, 
-
      MaxRequestDataID as gateKeeperRequestDataID,  
      t.ReceivedDate AS gatekeeperDateTime, t.DataSetID AS DocType,  
-	(select groupid from requestdata where requestdataid = t.maxrequestdataid ) as GKGroupID,
-	(select actiontype from requestdata where requestdataid = t.maxrequestdataid ) as actiontype,
-	(select status  
-     from dbo.request   
-     where requestid= t.Maxreqid ) AS Status,
-     (select requestID from dbo.RequestData   
+	(select requestID from dbo.RequestData   
      where RequestDataID = l.stagingrequestDataID) AS staging,  
      (select DTDVersion   
       from Dbo.request r inner join dbo.RequestData rd on r.requestid = rd.requestid  
@@ -113,8 +99,17 @@ BEGIN
       from Dbo.request r inner join dbo.RequestData rd on r.requestid = rd.requestid  
       where RequestDataID = l.liverequestDataID) AS liveDTDVersion,  
      l.liveUpdateTime AS liveDateTime,  
-     l.liveRequestDataID  
-       
+     l.liveRequestDataID    ,
+     (select CompleteReceivedTime
+     from dbo.request  r inner join dbo.requestdata rd on r.requestid = rd.requestid  
+      where RequestDataID = l.liverequestDataID) AS CompleteReceivedTime, 
+	 (select externalrequestID
+	  from dbo.request  r inner join dbo.requestdata rd on r.requestid = rd.requestid  
+      where RequestDataID = l.liverequestDataID) AS externalrequestID,
+    (select groupid from requestdata where requestdataid = l.liverequestDataID) as GroupID,
+	(select actiontype from requestdata where requestdataid = l.liverequestDataID ) as actiontype,
+	(select r.status from dbo.request r inner join dbo.requestdata rd on r.requestid = rd.requestid  
+      where RequestDataID = l.liverequestDataID ) AS Status   
     FROM   
      (SELECT t1.CDRID, t1.MaxReqID, rd.ReceivedDate, rd.DataSetID, rd.actiontype,  rd.requestDataID as MaxRequestDataID  
       FROM   
@@ -137,21 +132,9 @@ BEGIN
      (select DTDVersion  
      from dbo.request   
      where requestid= t.Maxreqid ) AS gateKeeperDTDVersion,   
-	(select CompleteReceivedTime
-     from dbo.request   
-     where requestid= t.Maxreqid ) AS CompleteReceivedTime, 
-	(select ExternalRequestID
-     from dbo.request   
-     where requestid= t.Maxreqid ) AS ExternalRequestID, 
-
-     MaxRequestDataID as gateKeeperRequestDataID,  
+	  MaxRequestDataID as gateKeeperRequestDataID,  
      t.ReceivedDate AS gatekeeperDateTime, t.DataSetID AS DocType,  
-	(select groupid from requestdata where requestdataid = t.maxrequestdataid ) as GKGroupID,
-	(select actiontype from requestdata where requestdataid = t.maxrequestdataid ) as actiontype,
-	(select status  
-     from dbo.request   
-     where requestid= t.Maxreqid ) AS Status,
-     (select requestID from dbo.RequestData   
+	 (select requestID from dbo.RequestData   
      where RequestDataID = l.stagingrequestDataID) AS staging,  
      (select DTDVersion   
       from Dbo.request r inner join dbo.RequestData rd on r.requestid = rd.requestid  
@@ -169,8 +152,17 @@ BEGIN
       from Dbo.request r inner join dbo.RequestData rd on r.requestid = rd.requestid  
       where RequestDataID = l.liverequestDataID) AS liveDTDVersion,  
      l.liveUpdateTime AS liveDateTime,  
-     l.liveRequestDataID  
-       
+     l.liveRequestDataID    ,
+     (select CompleteReceivedTime
+     from dbo.request  r inner join dbo.requestdata rd on r.requestid = rd.requestid  
+      where RequestDataID = l.liverequestDataID) AS CompleteReceivedTime, 
+	 (select externalrequestID
+     from dbo.request  r inner join dbo.requestdata rd on r.requestid = rd.requestid  
+      where RequestDataID = l.liverequestDataID) AS externalrequestID,
+    (select groupid from requestdata where requestdataid = l.liverequestDataID) as GroupID,
+	(select actiontype from requestdata where requestdataid = l.liverequestDataID ) as actiontype,
+	(select r.status from dbo.request r inner join dbo.requestdata rd on r.requestid = rd.requestid  
+      where RequestDataID = l.liverequestDataID ) AS Status   
     FROM   
      (SELECT t1.CDRID, t1.MaxReqID, rd.ReceivedDate, rd.DataSetID, rd.actiontype,  rd.requestDataID as MaxRequestDataID  
       FROM   
