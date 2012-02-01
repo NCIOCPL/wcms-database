@@ -32,6 +32,9 @@ BEGIN
 			@paging nvarchar(1000),
 			@Scount nvarchar(max)
 
+	if @siteName = ''
+		select @siteName = '//Sites/CancerGov'
+
 	if @maxResults > 0
 			select @select = 'select top ' + convert(nvarchar(20), @maxResults)  
 				+' * '
