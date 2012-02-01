@@ -18,7 +18,8 @@ create procedure dbo.searchFilterKeywordDate
 @MaxResults int = 500 ,
 @RecordsPerPage int = 20,
 @StartPage int = 1,
-@isLive bit = 1
+@isLive bit = 1,
+@siteName nvarchar(400) = '//Sites/CancerGov'
 )
 AS
 BEGIN
@@ -30,6 +31,9 @@ BEGIN
 			@rowNumber nvarchar(2000),
 			@paging nvarchar(1000),
 			@Scount nvarchar(max)
+
+	if @siteName = ''
+		select @siteName = '//Sites/CancerGov'
 
 	if @maxResults > 0
 			select @select = 'select top ' + convert(nvarchar(20), @maxResults)  
@@ -44,8 +48,11 @@ BEGIN
 		ELSE
 			select @from =  ' from  dbo.cgvStagingPageSearch '  
 
-	if @keyword is not NULL
-			select @where =  ' contentid in		(		select distinct contentid		 from   dbo.cgvPageSearch   p inner join dbo.udf_stringSplit(''' + 
+
+	select @where = ' site = ''' + @siteName + ''''
+
+		if @keyword is not NULL
+			select @where =  @where + ' and contentid in		(		select distinct contentid		 from   dbo.cgvPageSearch   p inner join dbo.udf_stringSplit(''' + 
 				@keyword + ''', '' '') a on p.meta_keywords like ''%''+ a.objectid + ''%''  )' 
 	
 	if @searchfilter is not NULL and @searchfilter <> ''

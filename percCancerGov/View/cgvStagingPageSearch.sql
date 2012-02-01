@@ -18,6 +18,7 @@ contentid, Short_Description , short_title, long_title, meta_keywords, legacy_se
  else date_last_modified
 end as 'Date'
 , subheader
+, site
 from dbo.cgvStagingPageMetaData p
 
 
