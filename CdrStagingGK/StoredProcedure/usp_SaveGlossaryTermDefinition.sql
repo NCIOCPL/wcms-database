@@ -23,7 +23,9 @@ CREATE PROCEDURE [dbo].[usp_SaveGlossaryTermDefinition]
 		@DefinitionHTML varchar(3900), 
 		@Language varchar(20), 
 		@UpdateUserID varchar(50), 
-		@MediaHTML ntext, 
+		@MediaHTML ntext,
+		@MediaCaption nvarchar(max),
+		@MediaID int,
 		@AudioMediaHTML ntext, 
 		@RelatedInformationHtml ntext, 
 		@isDebug bit = 0
@@ -42,6 +44,8 @@ BEGIN
 			[Language],
 			UpdateUserID,
 			MediaHTML,
+			MediaCaption,
+			MediaID,
 			AudioMediaHTML,
 			RelatedInformationHtml, 
 			UpdateDate)
@@ -52,6 +56,8 @@ BEGIN
 		@Language,
 		@UpdateUserID,
 		@MediaHTML,
+		@MediaCaption,
+		@MediaID,
 		@AudioMediaHTML,
 		@RelatedInformationHtml,
 		@UpdateDate)
