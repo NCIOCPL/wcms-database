@@ -95,6 +95,8 @@ BEGIN
 		UpdateDate, 
 		UpdateUserID,
 		MediaHTML,
+		MediaCaption,
+		MediaID,
 		AudioMediaHTML,
 		RelatedInformationHtml
 		)
@@ -106,6 +108,8 @@ BEGIN
 		@UpdateDate,
 		@UpdateUserID,
 		MediaHTML,
+		MediaCaption,
+		MediaID,
 		AudioMediaHTML,
 		RelatedInformationHtml
 	FROM 	CDRPreviewGK..GlossaryTermDefinition
