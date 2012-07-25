@@ -10,12 +10,15 @@ GO
 	Change history:	11/09/2004	Lijia
 	9/8/2006	Vadim Prvotorov Add selection for Spanish
 	06/03/2011  Prasad Betnag - Return AudioMediaHtml column
+	05/21/2012  Lee Hodge - added parameters for dictionary and audience
 **********************************************************************************/
 
 CREATE PROCEDURE [dbo].[usp_GetGlossary]
 	(
 	@Criteria	varchar(2000) = null,
 	@Language	varchar(10) = 'ENGLISH',
+	@dictionary varchar(10) = 'Cancer.Gov',
+	@audience   varchar(20) = 'Patient',
 	@topN int = 0,
 	@pagenumber int = -1,
 	@recordsPerPage int =10,
@@ -43,9 +46,9 @@ BEGIN
 									AND gt.GlossaryTermID = gtd.GlossaryTermID
 								AND gtd.Language = 'ENGLISH'
 								AND gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID
-								AND gtda.Audience = 'Patient'
+								AND gtda.Audience = @audience
 								AND gtd.GlossaryTermDefinitionID = gtdd.GlossaryTermDefinitionID
-								AND gtdd.Dictionary = 'Cancer.Gov'
+								AND gtdd.Dictionary = @dictionary
 
 								SELECT glossarytermid, termname
 									,termpronunciation
@@ -80,9 +83,9 @@ BEGIN
 									AND gt.GlossaryTermID = gtd.GlossaryTermID
 								AND gtd.Language = 'ENGLISH'
 								AND gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID
-								AND gtda.Audience = 'Patient'
+								AND gtda.Audience = @audience
 								AND gtd.GlossaryTermDefinitionID = gtdd.GlossaryTermDefinitionID
-								AND gtdd.Dictionary = 'Cancer.Gov'
+								AND gtdd.Dictionary = @dictionary
 									)a
 								where	@pagenumber = -1 OR
 										(num > @recordsperpage*(@pagenumber-1)
@@ -105,9 +108,9 @@ BEGIN
 									AND gt.GlossaryTermID = gtd.GlossaryTermID
 									AND gtd.Language = 'SPANISH'
 									AND gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID
-									AND gtda.Audience = 'Patient'
+									AND gtda.Audience = @audience
 									AND gtd.GlossaryTermDefinitionID = gtdd.GlossaryTermDefinitionID
-									AND gtdd.Dictionary = 'Cancer.Gov'
+									AND gtdd.Dictionary = @dictionary
 
 									SELECT glossarytermid, termname
 									,termpronunciation
@@ -142,9 +145,9 @@ BEGIN
 								AND gt.GlossaryTermID = gtd.GlossaryTermID
 								AND gtd.Language = 'SPANISH'
 								AND gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID
-								AND gtda.Audience = 'Patient'
+								AND gtda.Audience = @audience
 								AND gtd.GlossaryTermDefinitionID = gtdd.GlossaryTermDefinitionID
-								AND gtdd.Dictionary = 'Cancer.Gov'
+								AND gtdd.Dictionary = @dictionary
 									)a
 								where	@pagenumber = -1 OR
 										(num > @recordsperpage*(@pagenumber-1)
@@ -169,9 +172,9 @@ BEGIN
 					   AND gt.GlossaryTermID = gtd.GlossaryTermID  
 					   AND gtd.Language = 'ENGLISH'  
 					   AND gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID  
-					   AND gtda.Audience = 'Patient'  
+					   AND gtda.Audience = @audience  
 					   AND gtd.GlossaryTermDefinitionID = gtdd.GlossaryTermDefinitionID  
-					   AND gtdd.Dictionary = 'Cancer.Gov'  
+					   AND gtdd.Dictionary = @dictionary 
 
 					 if @topN =0 
 						SELECT gt.GlossaryTermID, gt.TermName, gt.TermPronunciation, gt.SpanishTermName as OLTermName, gtd.DefinitionHTML, 
@@ -190,9 +193,9 @@ BEGIN
 					   AND gt.GlossaryTermID = gtd.GlossaryTermID  
 					   AND gtd.Language = 'ENGLISH'  
 					   AND gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID  
-					   AND gtda.Audience = 'Patient'  
+					   AND gtda.Audience = @audience  
 					   AND gtd.GlossaryTermDefinitionID = gtdd.GlossaryTermDefinitionID  
-					   AND gtdd.Dictionary = 'Cancer.Gov'  
+					   AND gtdd.Dictionary = @dictionary  
 					   ORDER BY cast(lower(TermName) as binary)  
 						ELSE
 					   SELECT top (@topN) gt.GlossaryTermID, gt.TermName, gt.TermPronunciation, gt.SpanishTermName as OLTermName, gtd.DefinitionHTML, 
@@ -211,9 +214,9 @@ BEGIN
 					   AND gt.GlossaryTermID = gtd.GlossaryTermID  
 					   AND gtd.Language = 'ENGLISH'  
 					   AND gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID  
-					   AND gtda.Audience = 'Patient'  
+					   AND gtda.Audience = @audience  
 					   AND gtd.GlossaryTermDefinitionID = gtdd.GlossaryTermDefinitionID  
-					   AND gtdd.Dictionary = 'Cancer.Gov'  
+					   AND gtdd.Dictionary = @dictionary  
 					   ORDER BY cast(lower(TermName) as binary)  
 					  END  
 			ELSE  --language
@@ -230,9 +233,9 @@ BEGIN
 					   AND gt.GlossaryTermID = gtd.GlossaryTermID  
 					   AND gtd.Language = 'SPANISH'  
 					   AND gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID  
-					   AND gtda.Audience = 'Patient'  
+					   AND gtda.Audience = @audience  
 					   AND gtd.GlossaryTermDefinitionID = gtdd.GlossaryTermDefinitionID  
-					   AND gtdd.Dictionary = 'Cancer.Gov'  
+					   AND gtdd.Dictionary = @dictionary 
 
 						if @topN = 0
 							SELECT  gt.GlossaryTermID, gt.SpanishTermName as TermName, NULL as TermPronunciation, gt.TermName as OLTermName, gtd.DefinitionHTML, 
@@ -251,9 +254,9 @@ BEGIN
 					   AND gt.GlossaryTermID = gtd.GlossaryTermID  
 					   AND gtd.Language = 'SPANISH'  
 					   AND gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID  
-					   AND gtda.Audience = 'Patient'  
+					   AND gtda.Audience = @audience  
 					   AND gtd.GlossaryTermDefinitionID = gtdd.GlossaryTermDefinitionID  
-					   AND gtdd.Dictionary = 'Cancer.Gov'  
+					   AND gtdd.Dictionary = @dictionary  
 					   ORDER BY SpanishTermName  
 						ELSE
 					   SELECT top (@topN) gt.GlossaryTermID, gt.SpanishTermName as TermName, NULL as TermPronunciation, gt.TermName as OLTermName, gtd.DefinitionHTML, 
@@ -272,9 +275,9 @@ BEGIN
 					   AND gt.GlossaryTermID = gtd.GlossaryTermID  
 					   AND gtd.Language = 'SPANISH'  
 					   AND gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID  
-					   AND gtda.Audience = 'Patient'  
+					   AND gtda.Audience = @audience  
 					   AND gtd.GlossaryTermDefinitionID = gtdd.GlossaryTermDefinitionID  
-					   AND gtdd.Dictionary = 'Cancer.Gov'  
+					   AND gtdd.Dictionary = @dictionary  
 					   ORDER BY SpanishTermName  
 					  END
 				END  
@@ -282,8 +285,7 @@ BEGIN
 
 
 END
-		
-	
+
 
 GO
 
