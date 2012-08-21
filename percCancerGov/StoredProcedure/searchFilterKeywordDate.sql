@@ -89,6 +89,8 @@ BEGIN
 		' order by long_title '
 		when 4 then
 		' order by long_title desc ' 
+		when 5 then
+		' order by sort_date desc ' 
 		Else ' order by date desc'  END
 
 
