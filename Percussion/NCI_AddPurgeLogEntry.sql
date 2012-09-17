@@ -10,7 +10,8 @@ CREATE PROCEDURE [dbo].NCI_AddPurgeLogEntry
 	@PurgedContentID	int,		-- Percussion ID of the content item being purged.
 	@itemTitle			nchar(255),	-- sys_title of the content item being purged.
 	@purgeBy			varchar(50),-- Userid performing the purge
-	@workflowState		varchar(50)	-- Workflow state at time of purge.
+	@workflowState		varchar(50),-- Workflow state at time of purge.
+	@folderPathList		varchar(max)-- Comma separated list of folder paths.
 AS
 BEGIN
 --	BEGIN TRY
