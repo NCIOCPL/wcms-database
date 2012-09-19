@@ -1,0 +1,2 @@
+alter table cgvstagingPageMetadata add subscription_required bit
+alter table cgvPageMetadata add subscription_required bit
