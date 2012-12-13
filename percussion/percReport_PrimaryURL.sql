@@ -39,7 +39,7 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 
 
 
-		select c.contentid, left(c.title, len(c.title)-7)
+		select c.contentid, left(c.title, (len(c.title)-7))
 		, f.path+ case when p.pretty_url_name is null then '' ELSE '/' + pretty_url_name END as primaryURL
 		, t.contenttypename
 		from dbo.contentstatus c 
@@ -52,6 +52,7 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 		 and t.contenttypename in 
 						(select contenttypename from dbo.percReport_contenttype
 						where type = 'page')
+		and len(c.title)-7 >= 0
 		union all
 
 		select c1.contentid, c1.title
