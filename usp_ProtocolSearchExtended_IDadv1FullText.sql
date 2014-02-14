@@ -1,5 +1,11 @@
- drop procedure dbo.usp_ProtocolSearchExtended_IDadv1FullText  
- GO
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[usp_ProtocolSearchExtended_IDadv1FullText]') AND OBJECTPROPERTY(id,N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[usp_ProtocolSearchExtended_IDadv1FullText]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
 CREATE PROCEDURE dbo.usp_ProtocolSearchExtended_IDadv1FullText  
  (   
   
@@ -1641,4 +1647,5 @@ END
   
   GO
   
-  grant execute on dbo.usp_ProtocolSearchExtended_IDadv1FullText   to websiteuser
+  GRANT EXECUTE ON [dbo].[usp_ProtocolSearchExtended_IDadv1FullText] TO [websiteuser_role]
+GO
