@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE dbo.usp_ProtocolSearchExtended_IDadv1FullText  
+CREATE PROCEDURE [dbo].[usp_ProtocolSearchExtended_IDadv1FullText]  
  (   
   
  @IDstringHash int =  null,  
@@ -1642,8 +1642,7 @@ drop table #leadorgContact
 drop table #CityStateCountryContact  
 drop table #ZIPContact  
 drop table #InstitutionContact  
-END  
-  
+END    
   
   GO
   
