@@ -9,3 +9,8 @@ alter table  dbo.cgvpagemetadata add blogBody nvarchar(max)
 alter table  dbo.cgvstagingpagemetadata add blogBody nvarchar(max)
 
 GO
+
+
+alter table  dbo.cgvpagemetadata add author nvarchar(100)
+alter table  dbo.cgvstagingpagemetadata add author nvarchar(100)
+GO

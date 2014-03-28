@@ -1,3 +1,6 @@
+if OBJECT_ID('cgvBlog') is not null
+	drop view dbo.cgvBlog
+GO
 create view dbo.cgvBlog
 as
 select 
@@ -29,5 +32,6 @@ end as 'Date'
 ,m.EnlargeURL
 ,m.PanoramicImageURL
 , dbo.getFirst2paragraph(blogbody) as blogparagraph
+,p.author
 from dbo.cgvPageMetaData p left outer join dbo.gloImageMetaData m on p.imageid = m.contentid
-where p.blogbody is not null
+where p.LEGACY_SEARCH_FILTER  like 'Blog Series-%'

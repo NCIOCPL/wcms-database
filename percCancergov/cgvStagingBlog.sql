@@ -1,5 +1,8 @@
 use PercCancerGov
 GO
+if OBJECT_ID('cgvStagingBlog') is not null
+	drop view dbo.cgvStagingBlog
+GO
 Create view dbo.cgvStagingBlog
 as
 select 
@@ -31,5 +34,6 @@ end as 'Date'
 ,m.EnlargeURL
 ,m.PanoramicImageURL
 , dbo.getFirst2paragraph(blogbody) as blogparagraph
+,author
 from dbo.cgvStagingPageMetaData p left outer join dbo.glostagingImageMetaData m on p.imageid = m.contentid
-where p.blogbody is not null
+where p.LEGACY_SEARCH_FILTER  like 'Blog Series-%'
