@@ -16,6 +16,11 @@ BEGIN
 	from GlossaryTerm
 	where GlossaryTermID = @GlossaryTermID
 
+	select gtda.Audience, gtd.Language, gtd.DefinitionText, gtd.DefinitionHTML, gtd.MediaHTML, gtd.AudioMediaHTML, gtd.RelatedInformationHtml
+	from GlossaryTermDefinition gtd join GlossaryTermDefinitionAudience gtda
+		on gtd.GlossaryTermDefinitionID = gtda.GlossaryTermDefinitionID
+	where gtd.GlossaryTermID = @GlossaryTermID
+
 	RETURN 0  --Succesful return 0
 END
 
