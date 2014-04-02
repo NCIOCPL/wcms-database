@@ -1,6 +1,7 @@
 use percCancergov
 go
-drop procedure dbo.search_getNeighbor 
+if OBJECT_ID('search_getNeighbor') is not null
+	drop procedure dbo.search_getNeighbor 
 go
 create procedure dbo.search_getNeighbor 
 (@contentid int
@@ -52,7 +53,7 @@ BEGIN
 			and LANGUAGE = @Language
 			and LEGACY_SEARCH_FILTER like @filter +'%'
 			and LEGACY_SEARCH_FILTER = 
-			(select LEGACY_SEARCH_FILTER from dbo.cgvPageMetadata where CONTENTID = @contentid)
+			(select LEGACY_SEARCH_FILTER from dbo.cgvstagingPageMetadata where CONTENTID = @contentid)
 		
 		
 			select @r = rownumber from #t1
