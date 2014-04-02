@@ -12,7 +12,7 @@ p.contentid, Short_Description , short_title, long_title, meta_keywords, legacy_
 ,date_last_modified
 , Date_first_published
 , prettyurl, language, videourl, audiourl, imageurl, news_qanda_url
-,(select top 1 prettyurl from dbo.cgvpagemetadata t where t.contentid = p. otherlanguagecontentid) as otherlanguageURL
+,(select top 1 prettyurl from dbo.cgvstagingpagemetadata t where t.contentid = p. otherlanguagecontentid) as otherlanguageURL
 , case Date_Display_Mode   
  when '1' then Date_first_published
  when '5' then Date_first_published
