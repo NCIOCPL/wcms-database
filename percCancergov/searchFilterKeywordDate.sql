@@ -90,16 +90,16 @@ BEGIN
 	
 	Select @orderby = case @ResultsSortOrder  
 		when 1 then 
-		' order by date ' 
+		' order by date , contentid' 
 		when 2 then
-		' order by date desc'
+		' order by date desc, contentid desc'
 		when 3 then
 		' order by long_title '
 		when 4 then
 		' order by long_title desc ' 
 		when 5 then
-		' order by sort_date desc ' 
-		Else ' order by date desc'  END
+		' order by sort_date desc, contentid desc ' 
+		Else ' order by date desc, contentid desc'  END
 
 
 	select @rowNumber = ', row_number() over (' + @orderby + ') as RowNumber '
