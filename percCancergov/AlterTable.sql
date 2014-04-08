@@ -14,3 +14,8 @@ GO
 alter table  dbo.cgvpagemetadata add author nvarchar(100)
 alter table  dbo.cgvstagingpagemetadata add author nvarchar(100)
 GO
+
+
+alter table  dbo.cgvpagemetadata add contenttype nvarchar(100)
+alter table  dbo.cgvstagingpagemetadata add contenttype nvarchar(100)
+GO

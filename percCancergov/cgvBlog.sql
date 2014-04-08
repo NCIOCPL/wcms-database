@@ -33,5 +33,6 @@ end as 'Date'
 ,m.PanoramicImageURL
 , blogbody as blogparagraph
 ,p.author
+,p.contenttype
 from dbo.cgvPageMetaData p left outer join dbo.gloImageMetaData m on p.imageid = m.contentid
 where p.LEGACY_SEARCH_FILTER  like 'Blog Series-%'
