@@ -1,7 +1,18 @@
 create table #contentid (contentid varchar(900))
+;WITH CTE (c1) AS
+(
+    SELECT V.v 
+    FROM 
+    (
+	values
+--('960'),('9855'),('2356'),('542631') 
+	) AS V(v)
+)
+INSERT #contentid 
+SELECT c1 
+FROM CTE;
 
-insert into #contentid (contentid) values
---('960'),('9855'),('2356'),('542631')
+
 
 ;with folders as (
 					  select null as ParentID, f.ContentID as ID, cs.title as FolderName, 
