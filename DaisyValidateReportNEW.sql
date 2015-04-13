@@ -33,16 +33,27 @@ FROM CTE;
 
 
 select distinct g.[contentid], c.CONTENTID,  s.STATENAME 
-from #contentid g left outer join CONTENTSTATUS c on g.[contentid] = c.CONTENTID 
-left outer join STATES s on s.STATEID = c.CONTENTSTATEID and s.WORKFLOWAPPID = c.WORKFLOWAPPID
-where g.[contentid] is not null and (c.CONTENTID is null or ( s.STATENAME <> 'public' and s.STATENAME <> 'cdrlive'))
-and g.contentid not like '/%'
+, c.TITLE 
+, f.path + ISNULL('/' + replace(dbo.percreport_getPretty_url_name(c.contentid),'***',''), '') 
+as [url/folder]
+from #contentid g left outer join  
+(dbo.contentstatus c 
+inner join dbo.psx_objectrelationship ff on c.contentid = ff.dependent_id and config_id = 3
+inner join #folder f on f.id = ff.owner_id
+inner join STATES  s on s.STATEID = c.CONTENTSTATEID  and s.WORKFLOWAPPID = c.WORKFLOWAPPID
+) on g.contentid = c.CONTENTID 
+where g.contentid not like '/%'
+ and g.[contentid] is not null 
+ and (c.CONTENTID is null or ( s.STATENAME <> 'public' and s.STATENAME <> 'cdrlive'))
+ 
 union all
 select  
 distinct 
 g.contentid 
 ,c.contentid  
 , statename 
+, c.TITLE 
+, f.path 
 from #contentid g left outer join  
 (dbo.contentstatus c 
 inner join dbo.psx_objectrelationship ff on c.contentid = ff.dependent_id and config_id = 3
@@ -52,6 +63,10 @@ inner join STATES  s on s.STATEID = c.CONTENTSTATEID  and s.WORKFLOWAPPID = c.WO
 ) on g.[contentid] = f.Path 
 where   g.contentid like '/%'
 and g.[contentid] is not null and (c.CONTENTID is null or ( s.STATENAME <> 'public' and s.STATENAME <> 'cdrlive'))
+
+
+
+
 
 
 
