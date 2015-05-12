@@ -40,25 +40,31 @@ set nocount on
 	IF LTRIM(RTRIM(NULLIF(@LookupMethod, ''))) = 'KEYWORD'
 	BEGIN
 		(
-		SELECT DISTINCT  personid as CDRID, PersonGivenName + ' ' + PersonSurName As [Name], PersonSurName + ', ' + PersonGivenName + '; ' + City + ', ' + State AS DisplayName
+		SELECT DISTINCT  personid as CDRID
+		, case when PersonGivenName is null then '' else  ' ' END 
+		+ PersonSurName As [Name]
+		, PersonSurName + case when PersonGivenName is null then '' else  ', ' END + '; ' + City + ', ' + State AS DisplayName
 		FROM dbo.vwprotocolInvestigator
-		WHERE ((Country = 'U.S.A.' OR Country = 'Canada') AND NULLIF(State, '') IS NOT NULL)
+		WHERE ((Country = 'U.S.A.' OR Country = 'Canada') 
+		AND NULLIF(State, '') IS NOT NULL)
 		AND PersonID IS NOT NULL
 		AND (PersonSurName like @Keyword OR PersonGivenName like @Keyword)
-		AND (NULLIF(PersonGivenName, '') IS NOT NULL)
-		AND (NULLIF(PersonSurName, '') IS NOT NULL)
-		AND (NULLIF(City, '') IS NOT NULL)
+		--AND (NULLIF(PersonGivenName, '') IS NOT NULL)
+		--AND (NULLIF(PersonSurName, '') IS NOT NULL)
+		--AND (NULLIF(City, '') IS NOT NULL)
 		)
 		UNION
 		(
-		SELECT DISTINCT personid as CDRID, PersonGivenName + ' ' + PersonSurName As [Name], PersonSurName + ', ' + PersonGivenName + '; ' + City + ', ' + Country AS DisplayName
+		SELECT DISTINCT personid as CDRID, 
+		case when PersonGivenName is null then '' else  ' ' END + PersonSurName As [Name], 
+		PersonSurName + case when PersonGivenName is null then '' else  ', ' END + '; ' + City + ', ' + Country AS DisplayName
 		FROM dbo.vwprotocolInvestigator
 		WHERE ((Country <> 'U.S.A.' AND Country <> 'Canada') OR NULLIF (State, '') IS NULL)
 		AND PersonID IS NOT NULL
 		AND (PersonSurName like @Keyword OR PersonGivenName like @Keyword)
-		AND (NULLIF(PersonGivenName, '') IS NOT NULL)
-		AND (NULLIF(PersonSurName, '') IS NOT NULL)
-		AND (NULLIF(City, '') IS NOT NULL)
+		--AND (NULLIF(PersonGivenName, '') IS NOT NULL)
+		--AND (NULLIF(PersonSurName, '') IS NOT NULL)
+		--AND (NULLIF(City, '') IS NOT NULL)
 		AND (NULLIF(Country, '') IS NOT NULL)
 		)
 		ORDER BY DisplayName ASC
@@ -68,8 +74,8 @@ set nocount on
 		PRINT 'NOT A key word LookUp method'
 
 		SELECT DISTINCT  personid as CDRID,
-			PersonGivenName + ' ' + PersonSurName As [Name], 
-			PersonSurName + ', ' + PersonGivenName + '; ' + City + ', ' + State AS DisplayName
+			case when PersonGivenName is null then '' else  ' ' END + PersonSurName As [Name], 
+			PersonSurName + case when PersonGivenName is null then '' else  ', ' END + '; ' + City + ', ' + State AS DisplayName
 		FROM 	dbo.vwprotocolInvestigator
 		WHERE 	(
 				(
@@ -80,13 +86,16 @@ set nocount on
 			)
 			AND PersonSurName like @Keyword
 			AND PersonID IS NOT NULL
-			AND NULLIF(PersonGivenName, '') IS NOT NULL 
-			AND NULLIF(PersonSurName, '') IS NOT NULL 
-			AND NULLIF(City, '') IS NOT NULL 
+			--AND NULLIF(PersonGivenName, '') IS NOT NULL 
+			--AND NULLIF(PersonSurName, '') IS NOT NULL 
+			--AND NULLIF(City, '') IS NOT NULL 
 		UNION
 		SELECT DISTINCT  personid as CDRID,
-			PersonGivenName + ' ' + PersonSurName As [Name], 
-			PersonSurName + ', ' + PersonGivenName + '; ' + City + ', ' + Country AS DisplayName
+			case when PersonGivenName is null then '' else  ' ' END + isnull(PersonSurName,'') As [Name], 
+			isnull(PersonSurName, '') 
+			+ case when PersonGivenName is null then '' else  ', ' END
+			+ '; ' 
+			+ isnull(City,'') + ', ' + Country AS DisplayName
 		FROM 	dbo.vwprotocolInvestigator
 		WHERE 	(
 				(
@@ -97,9 +106,9 @@ set nocount on
 			)
 			AND PersonSurName like @Keyword
 			AND PersonID IS NOT NULL
-			AND NULLIF(PersonGivenName, '') IS NOT NULL 
-			AND NULLIF(PersonSurName, '') IS NOT NULL 
-			AND NULLIF(City, '') IS NOT NULL 
+			--AND NULLIF(PersonGivenName, '') IS NOT NULL 
+			--AND NULLIF(PersonSurName, '') IS NOT NULL 
+			--AND NULLIF(City, '') IS NOT NULL 
 			AND NULLIF(Country, '') IS NOT NULL 
 		ORDER BY DisplayName ASC
 	END
