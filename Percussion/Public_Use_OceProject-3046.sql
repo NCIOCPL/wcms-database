@@ -7,6 +7,7 @@
 --       Number of records = 3015.
 Use Percussion
 Set NoCount On
+Declare @ContentTypeId                 bigint;
 Declare @Latest_Revisions_To_Search    int = 1;
 Declare @Loop_Count                    int = 0;
 Declare @Update_Allowed                int = 0;
@@ -14,35 +15,40 @@ Set @Update_Allowed                    = 1;-- Uncomment for deployment.
    -- 0 => List only.
    -- 1 => For real: List prior, update, list after and commit.
    -- 2 => List prior, update, list after and rollback.
+Select @ContentTypeId                  = CT.CONTENTTYPEID
+   from dbo.CONTENTTYPES               as CT
+   where CT.CONTENTTYPENAME            = 'pdqCancerInfoSummary';
+Select '@ContentTypeId'                = @ContentTypeId;
 While @Loop_Count <= 1
    Begin
    Select Derived.*
       from (
          Select
                 RowId                        = ROW_NUMBER ()
-                                                  over (Partition by ContentId     -- Senior key.
-                                                        order by RevisionId desc), -- Junior key.
-                CONTENTID,
-                REVISIONID,
-                PUBLIC_USE,
-                LONG_TITLE,
-                SHORT_TITLE,
-                LONG_DESCRIPTION,
-                SHORT_DESCRIPTION,
-                META_DESCRIPTION,
-                META_KEYWORDS,
-                DO_NOT_INDEX,
-                PRETTY_URL_NAME,
-                PUBLIC_ARCHIVE,
-                BROWSER_TITLE,
-                CARD_TITLE
-           FROM [Percussion].[dbo].CGVPUBLISHEDPAGEMETADATA_CGVPUBLISHEDPAGEMETADATA1
-           where (LONG_TITLE              like '%(PDQ%')
-         --where TITLE like '%(PDQ®)%'
+                                                  over (Partition by CG.ContentId     -- Senior key.
+                                                        order by CG.RevisionId desc), -- Junior key.
+                CG.CONTENTID,
+                CG.REVISIONID,
+                CG.PUBLIC_USE,
+                CG.LONG_TITLE,
+                CG.SHORT_TITLE,
+                CG.LONG_DESCRIPTION,
+                CG.SHORT_DESCRIPTION,
+                CG.META_DESCRIPTION,
+                CG.META_KEYWORDS,
+                CG.DO_NOT_INDEX,
+                CG.PRETTY_URL_NAME,
+                CG.PUBLIC_ARCHIVE,
+                CG.BROWSER_TITLE,
+                CG.CARD_TITLE
+            FROM [Percussion].[dbo].CGVPUBLISHEDPAGEMETADATA_CGVPUBLISHEDPAGEMETADATA1  as CG
+            inner join dbo.CONTENTSTATUS        as CS
+               on (CG.CONTENTID                 = CS.CONTENTID)
+           where (CS.CONTENTTYPEID              = @ContentTypeId)
            )                                 as Derived
      where (Derived.RowId                 <= @Latest_Revisions_To_Search)
-     order by CONTENTID,
-              REVISIONID desc;
+     order by Derived.CONTENTID,
+              Derived.REVISIONID desc;
    Select 'ResultSet Above'               = 'CONTENTSTATUS latest revision',
           '!'                             = @@ERROR,
           '#'                             = ROWCOUNT_BIG (),
@@ -59,24 +65,26 @@ While @Loop_Count <= 1
          from (
          Select
                 RowId                        = ROW_NUMBER ()
-                                                  over (Partition by ContentId     -- Senior key.
-                                                        order by RevisionId desc), -- Junior key.
-                CONTENTID,
-                REVISIONID,
-                PUBLIC_USE,
-                LONG_TITLE,
-                SHORT_TITLE,
-                LONG_DESCRIPTION,
-                SHORT_DESCRIPTION,
-                META_DESCRIPTION,
-                META_KEYWORDS,
-                DO_NOT_INDEX,
-                PRETTY_URL_NAME,
-                PUBLIC_ARCHIVE,
-                BROWSER_TITLE,
-                CARD_TITLE
-           FROM [Percussion].[dbo].CGVPUBLISHEDPAGEMETADATA_CGVPUBLISHEDPAGEMETADATA1
-           where (LONG_TITLE                 like '%(PDQ%')
+                                                  over (Partition by CG.ContentId     -- Senior key.
+                                                        order by CG.RevisionId desc), -- Junior key.
+                CG.CONTENTID,
+                CG.REVISIONID,
+                CG.PUBLIC_USE,
+                CG.LONG_TITLE,
+                CG.SHORT_TITLE,
+                CG.LONG_DESCRIPTION,
+                CG.SHORT_DESCRIPTION,
+                CG.META_DESCRIPTION,
+                CG.META_KEYWORDS,
+                CG.DO_NOT_INDEX,
+                CG.PRETTY_URL_NAME,
+                CG.PUBLIC_ARCHIVE,
+                CG.BROWSER_TITLE,
+                CG.CARD_TITLE
+           FROM [Percussion].[dbo].CGVPUBLISHEDPAGEMETADATA_CGVPUBLISHEDPAGEMETADATA1 as CG
+            inner join dbo.CONTENTSTATUS        as CS
+               on (CG.CONTENTID                 = CS.CONTENTID)
+           where (CS.CONTENTTYPEID              = @ContentTypeId)
            )                                 as Derived
          where (Derived.RowId                 <= @Latest_Revisions_To_Search);
          Select 'Update'                        = 'CONTENTSTATUS latest revision',
@@ -89,7 +97,9 @@ While @Loop_Count <= 1
    Set @Loop_Count                       += 1;
    End;
 If @Update_Allowed = 1
-   Commit
+   Commit;
 Else
 If @Update_Allowed = 2
+   Rollback;
+If @@TRANCOUNT > 0
    Rollback;
