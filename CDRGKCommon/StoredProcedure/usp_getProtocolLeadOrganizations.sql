@@ -28,11 +28,11 @@ CREATE PROCEDURE dbo.usp_GetProtocolLeadOrganizations
 AS
 BEGIN
 	set nocount on
-	SELECT DISTINCT po.organizationid as CDRID, Orgn.Name AS [Name], OrgN.name AS DisplayName
+	SELECT DISTINCT po.organizationid as CDRID,
+			organizationname AS [Name],
+			organizationname AS DisplayName
 	FROM dbo.protocolleadorg po
-	INNER JOIN dbo.OrganizationName AS OrgN
-		ON OrgN.OrganizationID = Po.OrganizationID
-	WHERE OrgN.name like @keyword
+	WHERE organizationname like @keyword
 	and (OrganizationRole = 1
 	OR
 	(OrganizationRole = 2 AND PersonRole = 'PROTOCOL CHAIR')
