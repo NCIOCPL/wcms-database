@@ -1,0 +1,1 @@
+update PSX_OBJECTRELATIONSHIP set CONFIG_ID = '1' where SLOT_ID= '953'
