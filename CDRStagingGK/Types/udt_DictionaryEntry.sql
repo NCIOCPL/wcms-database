@@ -25,7 +25,7 @@ CREATE TYPE dbo.udt_DictionaryEntry AS TABLE
 	Language nvarchar(20),
 	Audience nvarchar(25),
 	ApiVers nvarchar(10),
-	Object nvarchar(4000)
+	Object nvarchar(max)
 )
 GO
 
