@@ -17,10 +17,18 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
+	DECLARE @r int
+
 	-- Remove any existing entries from the dictionary table.
-	delete
-	from dbo.Dictionary
-	where TermId = @TermID
+	BEGIN
+		EXEC @r =  dbo.usp_ClearDictionaryData @TermID
+		IF (@@ERROR <> 0) or (@r <>0)
+		BEGIN
+			
+			RAISERROR ( 70001, 16, 1, @TermID, 'Dictionary')
+			RETURN 70001
+		END 
+	END
 
 	-- Bulk update from the @Entries parameter
 	insert into dbo.dictionary(termid, termname, dictionary, language, audience, apiVers, [object])
