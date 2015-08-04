@@ -64,6 +64,21 @@ BEGIN
 	FROM 	CDRPreviewGK.dbo.Dictionary
 	WHERE 	TermID = @TermID
 
+	INSERT INTO CDRLiveGK.dbo.DictionaryTermAlias
+		(
+		TermID,
+		Othername,
+		OtherNameType,
+		Language
+		)
+	SELECT	TermID,
+			Othername,
+			OtherNameType,
+			Language
+	FROM 	CDRPreviewGK.dbo.DictionaryTermAlias
+	WHERE 	TermID = @TermID
+
+
 	IF (@@ERROR <> 0)
 	BEGIN
 		
