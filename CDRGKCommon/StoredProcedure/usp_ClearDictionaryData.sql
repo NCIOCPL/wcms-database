@@ -17,11 +17,11 @@ BEGIN
 
 	-- Remove any existing entries from the dictionary table.
 	delete
-	from dbo.Dictionary
+	from dbo.Dictionary  with (TABLOCKX)
 	where TermId = @TermID
 	
 	delete
-	from dbo.DictionaryTermAlias
+	from dbo.DictionaryTermAlias  with (TABLOCKX)
 	where TermID = @TermID
 END
 GO
