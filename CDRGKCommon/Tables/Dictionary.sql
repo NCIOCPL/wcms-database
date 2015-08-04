@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[Dictionary](
 	[Language] [nvarchar](20) NOT NULL,
 	[Audience] [nvarchar](25) NOT NULL,
 	[ApiVers] [nvarchar](10) NOT NULL,
-	[Object] [nvarchar](4000) NOT NULL
+	[Object] [nvarchar](max) NOT NULL
 ) ON [PRIMARY]
 
 END
