@@ -9,8 +9,8 @@ GO
 
 CREATE PROCEDURE [dbo].[usp_SaveDictionaryTerm]
 	@TermID int,	-- Identifier for the term (not the row)
-	@Entries udt_DictionaryEntry READONLY -- Collection of individual entries.
-	-- FUTURE PARAMETER @AliasList udt_DictionaryAlias READONLY -- List of aliases for the term name.
+	@Entries udt_DictionaryEntry READONLY, -- Collection of individual entries.
+	@Aliases udt_DictionaryTermAlias READONLY -- List of aliases for the term name.
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -19,7 +19,7 @@ BEGIN
 
 	DECLARE @r int
 
-	-- Remove any existing entries from the dictionary table.
+	-- Remove any existing entries from the dictionary tables.
 	BEGIN
 		EXEC @r =  dbo.usp_ClearDictionaryData @TermID
 		IF (@@ERROR <> 0) or (@r <>0)
@@ -30,10 +30,16 @@ BEGIN
 		END 
 	END
 
-	-- Bulk update from the @Entries parameter
+	-- Bulk update of the dictionary table.
 	insert into dbo.dictionary(termid, termname, dictionary, language, audience, apiVers, [object])
 	select termid, termname, dictionary, language, audience, apiVers, [object]
 	from @Entries
+
+	-- Bulk update of the alias table.
+	insert into dbo.DictionaryTermAlias(TermID, Othername, OtherNameType, Language)
+	select TermID, Name, NameType, Language
+	from @Aliases
+
 END
 GO
 
