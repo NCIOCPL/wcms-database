@@ -24,7 +24,6 @@ BEGIN
 		EXEC @r =  dbo.usp_ClearDictionaryData @TermID
 		IF (@@ERROR <> 0) or (@r <>0)
 		BEGIN
-			
 			RAISERROR ( 70001, 16, 1, @TermID, 'Dictionary')
 			RETURN 70001
 		END 
@@ -35,11 +34,23 @@ BEGIN
 	select termid, termname, dictionary, language, audience, apiVers, [object]
 	from @Entries
 
+	IF (@@ERROR <> 0)
+	BEGIN
+		RAISERROR ( 70000, 16, 1, @TermID, 'Dictionary')
+		RETURN 70000
+	END 	
+	
 	-- Bulk update of the alias table.
 	insert into dbo.DictionaryTermAlias(TermID, Othername, OtherNameType, Language)
 	select TermID, Name, NameType, Language
 	from @Aliases
 
+	IF (@@ERROR <> 0)
+	BEGIN
+		RAISERROR ( 70000, 16, 1, @TermID, 'Dictionary')
+		RETURN 70000
+	END 	
+	
 END
 GO
 

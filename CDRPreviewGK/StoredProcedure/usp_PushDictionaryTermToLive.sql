@@ -64,6 +64,13 @@ BEGIN
 	FROM 	CDRPreviewGK.dbo.Dictionary
 	WHERE 	TermID = @TermID
 
+	IF (@@ERROR <> 0)
+	BEGIN
+		
+		RAISERROR ( 70000, 16, 1, @TermID, 'Dictionary')
+		RETURN 70000
+	END 	
+
 	INSERT INTO CDRLiveGK.dbo.DictionaryTermAlias
 		(
 		TermID,

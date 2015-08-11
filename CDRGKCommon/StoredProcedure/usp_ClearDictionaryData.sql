@@ -23,6 +23,7 @@ BEGIN
 	delete
 	from dbo.DictionaryTermAlias  with (TABLOCKX)
 	where TermID = @TermID
+	
 END
 GO
 
