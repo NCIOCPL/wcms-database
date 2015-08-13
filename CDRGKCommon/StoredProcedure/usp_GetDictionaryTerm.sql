@@ -34,5 +34,5 @@ GO
 
 
 GO
-GRANT EXECUTE ON [dbo].[usp_GetDictionaryTerm] TO [gatekeeper_role]
+GRANT EXECUTE ON [dbo].[usp_GetDictionaryTerm] TO [webSiteUser_role]
 GO
