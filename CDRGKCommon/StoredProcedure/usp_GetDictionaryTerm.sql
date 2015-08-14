@@ -21,7 +21,7 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-	select *
+	select TermID, TermName, Dictionary, Language, Audience, ApiVers, object
 	from Dictionary
 	where TermID = @TermID
 	  and Dictionary = @Dictionary
