@@ -1,19 +1,25 @@
-set statistics time on
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[usp_SearchSuggestDictionary]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[usp_SearchSuggestDictionary]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 
-SET NOCOUNT ON;
+-- Retrieves a specific term
 
-declare @searchType nvarchar(11);
-select @searchType = 'magic';
+CREATE PROCEDURE [dbo].[usp_SearchSuggestDictionary]
+	@searchText nvarchar(2000),
+	@searchType nvarchar(11),
+	@Dictionary nvarchar(10),
+	@Language nvarchar(20),
+	@Audience nvarchar(25),
+	@ApiVers nvarchar(10), -- What version of the API (there may be multiple).
+	@offset int = 0,
+	@maxResults int = 10
 
-declare @searchTerm nvarchar(100);
-select @searchTerm = '%';
-
-declare @language nvarchar(11);
-select @language = 'English';
-
-declare @dictionary nvarchar(11);
-select @dictionary = 'drug';
-
+AS
+BEGIN
 
 create table #resultSet(
 	searchType nvarchar(10),
@@ -24,8 +30,8 @@ create table #resultSet(
 declare @beginsTerm nvarchar(100),
 		@containsTerm nvarchar(100)
 
-select @beginsTerm = @searchTerm + '%';
-select @containsTerm = '%' + @searchTerm + '%';
+select @beginsTerm = @searchText + '%';
+select @containsTerm = '%[- ]' + @searchText + '%';
 
 
 insert #resultSet (searchType, TermID, TermName)
@@ -64,16 +70,23 @@ union
 	  and (@searchType = 'magic' or @searchType = 'begins')
 )
 
+
 --select COUNT(*) as possible
 --from #resultSet
 
---select row, TermID, TermName, Dictionary, Language, Audience, ApiVers, object
-select top 200 row, TermID, TermName
+select top (@maxResults) row, TermID, TermName --, Dictionary, Language, Audience, ApiVers, object
 from
 (
 	select ROW_NUMBER() over (order by searchType, termName) as row, *
 	from #resultSet
 ) oresult
 
-drop table #resultSet;
 
+	
+END
+GO
+
+
+GO
+GRANT EXECUTE ON [dbo].[usp_SearchSuggestDictionary] TO [webSiteUser_role]
+GO
