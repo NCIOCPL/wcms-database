@@ -21,55 +21,35 @@ CREATE PROCEDURE [dbo].[usp_SearchDictionary]
 AS
 BEGIN
 
-create table #resultSet(
-	TermID int,
-	TermName nvarchar(1000)
-);
-
-declare @termCount int,
-		@aliasCount int;
 
 
-insert #resultSet (TermID, TermName)
-	select top(@maxResults) TermID, TermName
-	from Dictionary
-	where TermName like @searchText
-	  and Language = @language
-	  and Dictionary = @dictionary
-	order by TermName
-	
-select @termCount = COUNT(*) 
-	from Dictionary
-	where TermName like @searchText
-	  and Language = @language
-	  and Dictionary = @dictionary
-
-
-insert #resultSet (TermID, TermName)
-	select top(@maxResults) d.TermID, dta.OtherName
-	from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
-	where dta.OtherName like @searchText
-	  and d.Language = @language
-	  and d.Dictionary = @dictionary
-	order by TermName
-
-select @aliasCount = COUNT(*)
-	from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
-	where dta.OtherName like @searchText
-	  and d.Language = @language
-	  and d.Dictionary = @dictionary
-
-select @matchCount = @termCount + @aliasCount;
-
-
-select top (@maxResults) row, TermID, TermName --, Dictionary, Language, Audience, ApiVers, object
+select top(@maxResults) row, TermID, TermName, Dictionary, Language, Audience, ApiVers, object
 from
 (
-	select ROW_NUMBER() over (order by termName) as row, *
-	from #resultSet
-) oresult
+	select ROW_NUMBER() over (order by TermName ) as row, *
+	from Dictionary
+	where Dictionary = @dictionary
+	  and Language = @language
+	  and Audience = @Audience
+	  and ApiVers = @ApiVers
+	  and (TermName like @searchText
+		   or TermID in
+			(select termid from DictionaryTermAlias where Othername like @searchText)
+		)
+) filtered
 where row > @offset
 
+-- Get the total number of matches.
+select @matchCount = COUNT(*)
+from Dictionary
+where Dictionary = @dictionary
+  and Language = @language
+  and Audience = @Audience
+  and ApiVers = @ApiVers
+  and (TermName like @searchText
+       or TermID in
+		(select termid from DictionaryTermAlias where Othername like @searchText)
+	)
 
 	
 END
