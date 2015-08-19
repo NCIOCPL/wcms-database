@@ -6,7 +6,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
--- Retrieves a specific term
+-- Returns a set of table containing up to @maxResults rows of
+-- data mathing the specified search criteria
 
 CREATE PROCEDURE [dbo].[usp_SearchDictionary]
 	@searchText nvarchar(2000), -- The text to search for
