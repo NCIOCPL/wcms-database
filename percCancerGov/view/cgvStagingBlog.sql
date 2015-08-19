@@ -36,5 +36,5 @@ end as 'Date'
 ,blogbody as blogparagraph
 ,author
 ,p.contenttype
-from dbo.cgvStagingPageMetaData p left outer join dbo.glostagingImageMetaData m on p.imageid = m.contentid
+from dbo.cgvStagingPageMetaData p left outer join dbo.glostagingImageMetaData m on p.imageid = m.contentid  and p.site = m.site
 where p.LEGACY_SEARCH_FILTER  like 'Blog Series-%'
