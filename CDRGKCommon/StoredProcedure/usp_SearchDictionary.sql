@@ -9,20 +9,21 @@ GO
 -- Retrieves a specific term
 
 CREATE PROCEDURE [dbo].[usp_SearchDictionary]
-	@searchText nvarchar(2000),
-	@Dictionary nvarchar(10),
-	@Language nvarchar(20),
-	@Audience nvarchar(25),
+	@searchText nvarchar(2000), -- The text to search for
+	@Dictionary nvarchar(10), -- The dictionary to search (term/drug/genetic)
+	@Language nvarchar(20), -- The language to use for search and results
+	@Audience nvarchar(25), -- Target audience.
 	@ApiVers nvarchar(10), -- What version of the API? (There may be multiple.)
-	@offset int = 0,
-	@maxResults int = 200,
-	@matchCount int out
+	@offset int = 0, -- Zero-based offset into the list of results for the first record to return
+	@maxResults int = 200, -- The maximum number of results to return
+
+	@matchCount int out -- Returns the total number of rows matching the criteria.
 
 AS
 BEGIN
 
 
-
+-- Query for the search results, keeping at most @maxResults records.
 select top(@maxResults) row, TermID, TermName, Dictionary, Language, Audience, ApiVers, object
 from
 (
@@ -37,9 +38,11 @@ from
 			(select termid from DictionaryTermAlias where Othername like @searchText)
 		)
 ) filtered
-where row > @offset
+where row > @offset -- Use > because offset is zero-based but row is one-based
 
--- Get the total number of matches.
+
+
+-- To get the total match count, we re-run the query without a row limit.
 select @matchCount = COUNT(*)
 from Dictionary
 where Dictionary = @dictionary
