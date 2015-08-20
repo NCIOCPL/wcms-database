@@ -15,7 +15,6 @@ CREATE PROCEDURE [dbo].[usp_SearchSuggestDictionary]
 	@Language nvarchar(20),
 	@Audience nvarchar(25),
 	@ApiVers nvarchar(10), -- What version of the API (there may be multiple).
-	@offset int = 0,
 	@maxResults int = 10
 
 AS
