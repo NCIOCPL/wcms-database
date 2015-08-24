@@ -15,3 +15,4 @@ CREATE TYPE [dbo].[udt_TaxonomyFilter] AS TABLE(
 GO
 
 
+grant execute on type::udt_TaxonomyFilter to CDEUser
