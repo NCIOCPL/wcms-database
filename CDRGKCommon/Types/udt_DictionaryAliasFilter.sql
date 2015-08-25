@@ -12,7 +12,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 IF EXISTS (SELECT * FROM sys.types WHERE name = 'udt_DictionaryAliasTypeFilter' AND is_user_defined = 1 AND is_table_type = 1)
-drop type udt_DictionaryEntry
+drop type udt_DictionaryAliasTypeFilter
 GO
 
 
