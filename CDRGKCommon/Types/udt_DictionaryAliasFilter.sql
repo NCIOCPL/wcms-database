@@ -23,5 +23,5 @@ CREATE TYPE dbo.udt_DictionaryAliasTypeFilter AS TABLE
 )
 GO
 
-GRANT EXECUTE ON TYPE::[dbo].udt_DictionaryAliasTypeFilter TO [gatekeeper_role]
+GRANT EXECUTE ON TYPE::[dbo].udt_DictionaryAliasTypeFilter TO [webSiteUser_role]
 GO
