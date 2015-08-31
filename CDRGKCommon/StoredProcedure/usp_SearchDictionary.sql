@@ -23,38 +23,71 @@ CREATE PROCEDURE [dbo].[usp_SearchDictionary]
 AS
 BEGIN
 
+-- spanish search uses spanish accent insensive locale. 
 
--- Query for the search results, keeping at most @maxResults records.
-select top(@maxResults) row, TermID, TermName, Dictionary, Language, Audience, ApiVers, object
-from
-(
-	select ROW_NUMBER() over (order by TermName ) as row, *
-	from Dictionary
-	where Dictionary = @dictionary
-	  and Language = @language
-	  and Audience = @Audience
-	  and ApiVers = @ApiVers
-	  and (TermName like @searchText
-		   or TermID in
-			(select termid from DictionaryTermAlias where Othername like @searchText)
-		)
-) filtered
-where row > @offset -- Use > because offset is zero-based but row is one-based
+IF @Language = 'English'
+	BEGIN 
+		-- Query for the search results, keeping at most @maxResults records.
+		select top(@maxResults) row, TermID, TermName, Dictionary, Language, Audience, ApiVers, object
+		from
+		(
+			select ROW_NUMBER() over (order by TermName ) as row, *
+			from Dictionary
+			where Dictionary = @dictionary
+			  and Language = @language
+			  and Audience = @Audience
+			  and ApiVers = @ApiVers
+			  and (TermName like @searchText
+				   or TermID in
+					(select termid from DictionaryTermAlias where Othername like @searchText)
+				)
+		) filtered
+		where row > @offset -- Use > because offset is zero-based but row is one-based
 
+		-- To get the total match count, we re-run the query without a row limit.
+		select @matchCount = COUNT(*)
+		from Dictionary
+		where Dictionary = @dictionary
+		  and Language = @language
+		  and Audience = @Audience
+		  and ApiVers = @ApiVers
+		  and (TermName like @searchText
+			   or TermID in
+				(select termid from DictionaryTermAlias where Othername like @searchText)
+			)
+	END
+ELSE
+	BEGIN 
+		-- Query for the search results, keeping at most @maxResults records.
+		select top(@maxResults) row, TermID, TermName, Dictionary, Language, Audience, ApiVers, object
+		from
+		(
+			select ROW_NUMBER() over (order by TermName  collate modern_spanish_CI_AI) as row, *
+			from Dictionary
+			where Dictionary = @dictionary
+			  and Language = @language
+			  and Audience = @Audience
+			  and ApiVers = @ApiVers
+			  and (TermName collate modern_spanish_CI_AI  like @searchText
+				   or TermID in
+					(select termid from DictionaryTermAlias where Othername  collate modern_spanish_CI_AI  like @searchText)
+				)
+		) filtered
+		where row > @offset -- Use > because offset is zero-based but row is one-based
 
-
--- To get the total match count, we re-run the query without a row limit.
-select @matchCount = COUNT(*)
-from Dictionary
-where Dictionary = @dictionary
-  and Language = @language
-  and Audience = @Audience
-  and ApiVers = @ApiVers
-  and (TermName like @searchText
-       or TermID in
-		(select termid from DictionaryTermAlias where Othername like @searchText)
-	)
-
+		-- To get the total match count, we re-run the query without a row limit.
+		select @matchCount = COUNT(*)
+		from Dictionary
+		where Dictionary = @dictionary
+		  and Language = @language
+		  and Audience = @Audience
+		  and ApiVers = @ApiVers
+		  and (TermName collate modern_spanish_CI_AI  like @searchText
+			   or TermID in
+				(select termid from DictionaryTermAlias where Othername   collate modern_spanish_CI_AI  like @searchText)
+			)
+	END
+	
 	
 END
 GO

@@ -43,48 +43,99 @@ select @containsTerm = '%[- ]' + @searchText + '%';
 -- find out the total number of possible matches too.
 -- Prepending begins vs contains provides a means of ordering them
 -- for the "magic" search type.
-insert #resultSet (searchType, TermID, TermName)
-(
-	-- Match term name beginning with @beginsTerm
-	select 'begins' as searchType, TermID, TermName
-	from Dictionary
-	where TermName like @beginsTerm
-	  and Language = @language
-	  and Dictionary = @dictionary
-	  and (@searchType = 'magic' or @searchType = 'begins')
-  
-  union
 
-	-- Match alternate name beginning with @beginsTerm
-	select 'begins' as searchType, d.TermID, dta.OtherName
-	from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
-	where dta.OtherName like @beginsTerm
-	  and d.Language = @language
-	  and d.Dictionary = @dictionary
-	  and (@searchType = 'magic' or @searchType = 'begins')
+-- spanish search uses spanish accent insensive locale. 
 
-  union
+IF @Language = 'english'
+		BEGIN
+			insert #resultSet (searchType, TermID, TermName)
+		(
+			-- Match term name beginning with @beginsTerm
+			select 'begins' as searchType, TermID, TermName
+			from Dictionary
+			where TermName like @beginsTerm
+			  and Language = @language
+			  and Dictionary = @dictionary
+			  and (@searchType = 'magic' or @searchType = 'begins')
+		  
+		  union
 
-	-- Match term name containing @containsTerm
-	select 'contains' as searchType, TermID, TermName
-	from Dictionary
-	where TermName like @containsTerm
-	  and Language = @language
-	  and Dictionary = @dictionary
-	  and (@searchType = 'magic' or @searchType = 'contains')
-	  and TermID not in (select TermID from #resultSet)
+			-- Match alternate name beginning with @beginsTerm
+			select 'begins' as searchType, d.TermID, dta.OtherName
+			from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+			where dta.OtherName like @beginsTerm
+			  and d.Language = @language
+			  and d.Dictionary = @dictionary
+			  and (@searchType = 'magic' or @searchType = 'begins')
 
-union
+		  union
 
-	-- Match alternate name containing @containsTerm
-	select 'contains' as searchType, d.TermID, dta.OtherName
-	from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
-		and dta.Othername not in(select TermName from #resultSet)
-	where dta.OtherName like @containsTerm
-	  and d.Language = @language
-	  and d.Dictionary = @dictionary
-	  and (@searchType = 'magic' or @searchType = 'begins')
-)
+			-- Match term name containing @containsTerm
+			select 'contains' as searchType, TermID, TermName
+			from Dictionary
+			where TermName like @containsTerm
+			  and Language = @language
+			  and Dictionary = @dictionary
+			  and (@searchType = 'magic' or @searchType = 'contains')
+			  and TermID not in (select TermID from #resultSet)
+
+		union
+
+			-- Match alternate name containing @containsTerm
+			select 'contains' as searchType, d.TermID, dta.OtherName
+			from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+				and dta.Othername not in(select TermName from #resultSet)
+			where dta.OtherName like @containsTerm
+			  and d.Language = @language
+			  and d.Dictionary = @dictionary
+			  and (@searchType = 'magic' or @searchType = 'begins')
+		)
+	END
+	ELSE
+		BEGIN
+			insert #resultSet (searchType, TermID, TermName)
+			(
+				-- Match term name beginning with @beginsTerm
+				select 'begins' as searchType, TermID, TermName
+				from Dictionary
+				where TermName  collate modern_spanish_CI_AI  like @beginsTerm
+				  and Language = @language
+				  and Dictionary = @dictionary
+				  and (@searchType = 'magic' or @searchType = 'begins')
+			  
+			  union
+
+				-- Match alternate name beginning with @beginsTerm
+				select 'begins' as searchType, d.TermID, dta.OtherName
+				from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+				where dta.OtherName  collate modern_spanish_CI_AI  like @beginsTerm
+				  and d.Language = @language
+				  and d.Dictionary = @dictionary
+				  and (@searchType = 'magic' or @searchType = 'begins')
+
+			  union
+
+				-- Match term name containing @containsTerm
+				select 'contains' as searchType, TermID, TermName
+				from Dictionary
+				where TermName  collate modern_spanish_CI_AI  like @containsTerm
+				  and Language = @language
+				  and Dictionary = @dictionary
+				  and (@searchType = 'magic' or @searchType = 'contains')
+				  and TermID not in (select TermID from #resultSet)
+
+			union
+
+				-- Match alternate name containing @containsTerm
+				select 'contains' as searchType, d.TermID, dta.OtherName
+				from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+					and dta.Othername not in(select TermName from #resultSet)
+				where dta.OtherName  collate modern_spanish_CI_AI  like @containsTerm
+				  and d.Language = @language
+				  and d.Dictionary = @dictionary
+				  and (@searchType = 'magic' or @searchType = 'begins')
+			)
+	END
 
 -- Get the number of results matching the search criteria.
 select @matchCount = @@RowCount
