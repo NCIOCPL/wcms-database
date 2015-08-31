@@ -12,17 +12,6 @@ if OBJECT_ID('searchFilterKeywordDate') is not null
 	drop procedure [dbo].[searchFilterKeywordDate]
 go
 
-IF EXISTS (SELECT * FROM sys.types WHERE name = 'udt_TaxonomyFilter' AND is_user_defined = 1 AND is_table_type = 1)
-drop type udt_TaxonomyFilter
-go
-CREATE TYPE udt_TaxonomyFilter AS TABLE 
-( taxonomyName varchar(250)
-, taxonID INT );
-GO
-
-
-go
-
 create procedure [dbo].[searchFilterKeywordDate]
 (
 @Keyword nvarchar(500) = NULL,
