@@ -60,26 +60,54 @@ end
 -- find out the total number of possible matches too.
 -- Prepending begins vs contains provides a means of ordering them
 -- for the "magic" search type.
-insert #resultSet (TermID, MatchedTermName)
-(
-	-- Match term name beginning with @searchText
-	select TermID, TermName
-	from Dictionary
-	where TermName like @searchText
-	  and Language = @language
-	  and Dictionary = @dictionary
-  
-  union
 
-	-- Match alternate name beginning with @searchText
-	select d.TermID, dta.OtherName
-	from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
-		and dta.OtherNameType in (select NameType from @filter)
-	where dta.OtherName like @searchText
-	  and d.Language = @language
-	  and d.Dictionary = @dictionary
-)
+-- spanish accent insensitive
 
+IF @language = 'english'
+		BEGIN
+			insert #resultSet (TermID, MatchedTermName)
+			(
+				-- Match term name beginning with @searchText
+				select TermID, TermName
+				from Dictionary
+				where TermName like @searchText
+				  and Language = @language
+				  and Dictionary = @dictionary
+			  
+			  union
+
+				-- Match alternate name beginning with @searchText
+				select d.TermID, dta.OtherName
+				from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+					and dta.OtherNameType in (select NameType from @filter)
+				where dta.OtherName like @searchText
+				  and d.Language = @language
+				  and d.Dictionary = @dictionary
+			)
+		END
+	ELSE
+		BEGIN
+			insert #resultSet (TermID, MatchedTermName)
+			(
+				-- Match term name beginning with @searchText
+				select TermID, TermName
+				from Dictionary
+				where TermName  collate modern_spanish_CI_AI like @searchText
+				  and Language = @language
+				  and Dictionary = @dictionary
+			  
+			  union
+
+				-- Match alternate name beginning with @searchText
+				select d.TermID, dta.OtherName
+				from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+					and dta.OtherNameType in (select NameType from @filter)
+				where dta.OtherName  collate modern_spanish_CI_AI  like @searchText
+				  and d.Language = @language
+				  and d.Dictionary = @dictionary
+			)
+		END
+		
 -- Get the number of results matching the search criteria.
 select @matchCount = @@RowCount
 
