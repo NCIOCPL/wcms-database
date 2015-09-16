@@ -16,13 +16,17 @@ GO
 	Object's name:	usp_GetProtocolByProtocolID
 	Object's type:	Stored procedure
 	Purpose:	Get protocols by ProtocolID
+
+	Calling code:
+	09/15/2015 CDE_ROOT\CDESites\CancerGov\CDR.DataManager\Protocol.cs
 	
 	Change History:
-	?/?/2003 	John Doo	Script Created
-	12/4/2003	Alex 		Add Phase in to search Result
-	3/16/2004	Alex 		Make first table return pd.healthprofessionaltitle, pd.patienttitle columns
-	8/19/2004	Lijia Chu	Make to use table variable, not use dynamic sql and temp table.
-	10/18/2004	Lijia Chu	SectionList to 1000 		
+	?/?/2003 	John Doo		Script Created
+	12/4/2003	Alex 			Add Phase in to search Result
+	3/16/2004	Alex 			Make first table return pd.healthprofessionaltitle, pd.patienttitle columns
+	8/19/2004	Lijia Chu		Make to use table variable, not use dynamic sql and temp table.
+	10/18/2004	Lijia Chu		SectionList to 1000 		
+	09/15/2015  Bryan Pizzillo	Include NCTID in return columns
 
 
 **********************************************************************************/
@@ -112,6 +116,7 @@ BEGIN
 		SponsorOfTrial, 
 		PrimaryProtocolID, 
 		AlternateProtocolIDs,  
+		( SELECT TOP 1 IDstring FROM protocolAlternateID WHERE idtypeid = 4) as NCTID,
 		CurrentStatus, 
 		Phase, 
 		DateLastModified, 
