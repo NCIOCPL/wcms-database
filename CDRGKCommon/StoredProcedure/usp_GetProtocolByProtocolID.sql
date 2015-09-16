@@ -116,13 +116,13 @@ BEGIN
 		SponsorOfTrial, 
 		PrimaryProtocolID, 
 		AlternateProtocolIDs,  
-		( SELECT TOP 1 IDstring FROM protocolAlternateID WHERE idtypeid = 4) as NCTID,
+		( SELECT TOP 1 IDstring FROM protocolAlternateID WHERE idtypeid = 4 and protocolid = pd.protocolid) as NCTID,
 		CurrentStatus, 
 		Phase, 
 		DateLastModified, 
 		DateFirstPublished, 
 		case isCTprotocol when 1 then 28 else 5 end as DocumentTypeID
- 	FROM 	Protocoldetail WITH (READUNCOMMITTED) 
+ 	FROM 	Protocoldetail pd WITH (READUNCOMMITTED) 
  	WHERE ProtocolID = @ProtocolID
 
 	
