@@ -32,7 +32,7 @@ IF @Language = 'English'
 		from
 		(
 			select ROW_NUMBER() over (order by TermName ) as row, *
-			from Dictionary
+			from Dictionary with (nolock)
 			where Dictionary = @dictionary
 			  and Language = @language
 			  and Audience = @Audience
@@ -46,7 +46,7 @@ IF @Language = 'English'
 
 		-- To get the total match count, we re-run the query without a row limit.
 		select @matchCount = COUNT(*)
-		from Dictionary
+		from Dictionary with (nolock)
 		where Dictionary = @dictionary
 		  and Language = @language
 		  and Audience = @Audience
@@ -63,7 +63,7 @@ ELSE
 		from
 		(
 			select ROW_NUMBER() over (order by TermName  collate modern_spanish_CI_AI) as row, *
-			from Dictionary
+			from Dictionary with (nolock)
 			where Dictionary = @dictionary
 			  and Language = @language
 			  and Audience = @Audience
@@ -77,7 +77,7 @@ ELSE
 
 		-- To get the total match count, we re-run the query without a row limit.
 		select @matchCount = COUNT(*)
-		from Dictionary
+		from Dictionary with (nolock)
 		where Dictionary = @dictionary
 		  and Language = @language
 		  and Audience = @Audience

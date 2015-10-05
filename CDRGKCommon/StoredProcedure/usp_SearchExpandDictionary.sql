@@ -69,7 +69,7 @@ IF @language = 'english'
 			(
 				-- Match term name beginning with @searchText
 				select TermID, TermName
-				from Dictionary
+				from Dictionary with (nolock)
 				where TermName like @searchText
 				  and Language = @language
 				  and Dictionary = @dictionary
@@ -78,7 +78,7 @@ IF @language = 'english'
 
 				-- Match alternate name beginning with @searchText
 				select d.TermID, dta.OtherName
-				from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+				from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
 					and dta.OtherNameType in (select NameType from @filter)
 				where dta.OtherName like @searchText
 				  and d.Language = @language
@@ -91,7 +91,7 @@ IF @language = 'english'
 			(
 				-- Match term name beginning with @searchText
 				select TermID, TermName
-				from Dictionary
+				from Dictionary with (nolock)
 				where TermName  collate modern_spanish_CI_AI like @searchText
 				  and Language = @language
 				  and Dictionary = @dictionary
@@ -100,7 +100,7 @@ IF @language = 'english'
 
 				-- Match alternate name beginning with @searchText
 				select d.TermID, dta.OtherName
-				from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+				from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
 					and dta.OtherNameType in (select NameType from @filter)
 				where dta.OtherName  collate modern_spanish_CI_AI  like @searchText
 				  and d.Language = @language

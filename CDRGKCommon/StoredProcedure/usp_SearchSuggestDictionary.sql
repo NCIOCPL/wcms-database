@@ -52,7 +52,7 @@ IF @Language = 'english'
 		(
 			-- Match term name beginning with @beginsTerm
 			select 'begins' as searchType, TermID, TermName
-			from Dictionary
+			from Dictionary with (nolock)
 			where TermName like @beginsTerm
 			  and Language = @language
 			  and Dictionary = @dictionary
@@ -62,7 +62,7 @@ IF @Language = 'english'
 
 			-- Match alternate name beginning with @beginsTerm
 			select 'begins' as searchType, d.TermID, dta.OtherName
-			from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+			from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
 			where dta.OtherName like @beginsTerm
 			  and d.Language = @language
 			  and d.Dictionary = @dictionary
@@ -72,7 +72,7 @@ IF @Language = 'english'
 
 			-- Match term name containing @containsTerm
 			select 'contains' as searchType, TermID, TermName
-			from Dictionary
+			from Dictionary with (nolock)
 			where TermName like @containsTerm
 			  and Language = @language
 			  and Dictionary = @dictionary
@@ -83,7 +83,7 @@ IF @Language = 'english'
 
 			-- Match alternate name containing @containsTerm
 			select 'contains' as searchType, d.TermID, dta.OtherName
-			from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+			from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
 				and dta.Othername not in(select TermName from #resultSet)
 			where dta.OtherName like @containsTerm
 			  and d.Language = @language
@@ -97,7 +97,7 @@ IF @Language = 'english'
 			(
 				-- Match term name beginning with @beginsTerm
 				select 'begins' as searchType, TermID, TermName
-				from Dictionary
+				from Dictionary with (nolock)
 				where TermName  collate modern_spanish_CI_AI  like @beginsTerm
 				  and Language = @language
 				  and Dictionary = @dictionary
@@ -107,7 +107,7 @@ IF @Language = 'english'
 
 				-- Match alternate name beginning with @beginsTerm
 				select 'begins' as searchType, d.TermID, dta.OtherName
-				from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+				from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
 				where dta.OtherName  collate modern_spanish_CI_AI  like @beginsTerm
 				  and d.Language = @language
 				  and d.Dictionary = @dictionary
@@ -117,7 +117,7 @@ IF @Language = 'english'
 
 				-- Match term name containing @containsTerm
 				select 'contains' as searchType, TermID, TermName
-				from Dictionary
+				from Dictionary with (nolock)
 				where TermName  collate modern_spanish_CI_AI  like @containsTerm
 				  and Language = @language
 				  and Dictionary = @dictionary
@@ -128,7 +128,7 @@ IF @Language = 'english'
 
 				-- Match alternate name containing @containsTerm
 				select 'contains' as searchType, d.TermID, dta.OtherName
-				from Dictionary d join DictionaryTermAlias dta on d.TermID = dta.TermID
+				from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
 					and dta.Othername not in(select TermName from #resultSet)
 				where dta.OtherName  collate modern_spanish_CI_AI  like @containsTerm
 				  and d.Language = @language
