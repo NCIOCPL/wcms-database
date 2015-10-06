@@ -1,6 +1,5 @@
 
 create table #t (url varchar(250), channel varchar(250), suite varchar(250), [content-group] varchar(250))
-
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov', 'NCI Homepage', 'nciglobal, ncienglish-all', 'NCI Homepage')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/search/results', 'Search', 'nciglobal, ncienglish-all', 'Global Search')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/about-cancer', 'About Cancer', 'nciglobal, ncienglish-all, ncicancertopics', 'About Cancer (Other)')
@@ -15,13 +14,13 @@ insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/abo
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/about-cancer/managing-care', 'About Cancer', 'nciglobal, ncienglish-all, ncicancertopics', 'Managing Cancer Care')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/types', 'Cancer Types', 'nciglobal, ncienglish-all, ncicancertopics', 'Cancer Types Landing Page')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/types/by-body-location', 'Cancer Types', 'nciglobal, ncienglish-all, ncicancertopics', 'Cancer Types Listing Page')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/types/commoncancers', 'Cancer Types', 'nciglobal, ncienglish-all, ncicancertopics', 'Cancer Types Listing Page')
+insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/types/common-cancers', 'Cancer Types', 'nciglobal, ncienglish-all, ncicancertopics', 'Cancer Types Listing Page')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/types/childhood-cancers', 'Cancer Types', 'nciglobal, ncienglish-all, ncicancertopics', 'Childhood Cancers')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/types/aya', 'Cancer Types', 'nciglobal, ncienglish-all, ncicancertopics', 'Adolescent and Young Adult Cancers')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/research', 'Research', 'nciglobal, ncienglish-all, nciresearch', 'Research Landing Page')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/research/nci-role', 'Research', 'nciglobal, ncienglish-all, nciresearch', 'NCI Role')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/research/areas', 'Research', 'nciglobal, ncienglish-all, nciresearch', 'Research Areas')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/research/priorities', 'Research', 'nciglobal, ncienglish-all, nciresearch', 'Priority Initiatives')
+insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/research/key-initiatives', 'Research', 'nciglobal, ncienglish-all, nciresearch', 'Key Initiatives')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/research/resources', 'Research', 'nciglobal, ncienglish-all, nciresearch', 'R&amp;D Resources')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/research/progress', 'Research', 'nciglobal, ncienglish-all, nciresearch', 'Research Progress')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/grants-training', 'Grants &amp; Training', 'nciglobal, ncienglish-all, nciresearch', 'Grants &amp; Training Landing Page')
@@ -34,8 +33,8 @@ insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/new
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/news-events/press-releases', 'News &amp; Events', 'nciglobal, ncienglish-all, ncinews', 'Press Releases')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/news-events/media-resources', 'News &amp; Events', 'nciglobal, ncienglish-all, ncinews', 'Media Resources')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/news-events/events', 'News &amp; Events', 'nciglobal, ncienglish-all, ncinews', 'Events')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/news-events/nci-update', 'News &amp; Events', 'nciglobal, ncienglish-all, ncinews', 'NCI Update')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/news-events/events/confences', 'News &amp; Events', 'nciglobal, ncienglish-all, ncinews', 'Conferences')
+insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/news-events/cancer-currents-blog', 'News &amp; Events', 'nciglobal, ncienglish-all, ncinews', 'Cancer Current Blog')
+insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/news-events/events/conferences', 'News &amp; Events', 'nciglobal, ncienglish-all, ncinews', 'Conferences')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/about-nci', 'About NCI', 'nciglobal, ncienglish-all, nciabout', 'About NCI Landing Page')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/about-nci/overview', 'About NCI', 'nciglobal, ncienglish-all, nciabout', 'Overview')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/about-nci/budget', 'About NCI', 'nciglobal, ncienglish-all, nciabout', 'Budget')
@@ -49,12 +48,10 @@ insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/pub
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/publications/dictionaries/cancer-drug', 'Publications', 'nciglobal, ncienglish-all, ncidrugdictionary', 'NCI Drug Dictionary')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/publications/patient-education', 'Publications', 'nciglobal, ncienglish-all', 'Patient Education Publications')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/publications/pdq', 'Publications', 'nciglobal, ncienglish-all', 'PDQ Publications')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/publications/blogs-newsletters/cancer-bulletin', 'Publications', 'nciglobal, ncienglish-all', 'NCI Cancer Bulletin')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/dictionary/statistical-terms', 'Dictionary of Statistical Terms', 'nciglobal, ncienglish-all', 'Dictionary of Statistical Terms')
+insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/publications/blogs-newsletters', 'Publications', 'nciglobal, ncienglish-all', 'Blogs and Newsletters')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/about-website', 'Global Pages', 'nciglobal, ncienglish-all', 'About Website')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/contact', 'Global Pages', 'nciglobal, ncienglish-all', 'Contact Pages')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/global', 'Global Pages', 'nciglobal, ncienglish-all', 'Global Landing Page')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/error', 'Error Pages', 'nciglobal, ncienglish-all', 'Error Pages')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/resources-for', 'Resources For', 'nciglobal, ncienglish-all', 'Resources For')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol', 'NCI Home - Spanish', 'nciglobal, ncispanish-all', 'NCI Home - Spanish')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/cancer', 'About Cancer - Spanish', 'nciglobal, ncispanish-all, ncielcancer', 'About Cancer Landing Page - Spanish')
@@ -69,7 +66,7 @@ insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/esp
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/cancer/manejo-del-cancer', 'About Cancer - Spanish', 'nciglobal, ncispanish-all, ncielcancer', 'Managing Cancer Care - Spanish')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/tipos', 'Cancer Types - Spanish', 'nciglobal, ncispanish-all, ncitiposdecancer', 'Cancer Types Landing Page - Spanish')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/tipos/por-partes-cuerpo', 'Cancer Types - Spanish', 'nciglobal, ncispanish-all, ncitiposdecancer', 'Cancer Types (Other) - Spanish')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/tipos/comunes-general', 'Cancer Types - Spanish', 'nciglobal, ncispanish-all, ncitiposdecancer', 'Cancer Types (Other) - Spanish')
+insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/tipos/comunes', 'Cancer Types - Spanish', 'nciglobal, ncispanish-all, ncitiposdecancer', 'Cancer Types (Other) - Spanish')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/tipos/infantil', 'Cancer Types - Spanish', 'nciglobal, ncispanish-all, ncitiposdecancer', 'Childhood Cancers - Spanish')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/investigacion', 'Research - Spanish', 'nciglobal, ncispanish-all', 'Research Landing Page - Spanish')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/investigacion/papel-del-nci', 'Research - Spanish', 'nciglobal, ncispanish-all', 'NCI Role - Spanish')
@@ -84,14 +81,10 @@ insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/esp
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/publicaciones/educacion-para-pacientes', 'Publications - Spanish', 'nciglobal, ncispanish-all', 'Patient Education Publications - Spanish')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/publicaciones/pdq', 'Publications - Spanish', 'nciglobal, ncispanish-all', 'PDQ Publications - Spanish')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/buscar', 'Search - Spanish', 'nciglobal, ncispanish-all', 'Search - Spanish')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/publicaciones/diccionario/terminos-cancer', 'Publications - Spanish', 'nciglobal, ncispanish-all', 'Dictionary of Cancer Terms - Spanish')
+insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/publicaciones/diccionario', 'Publications - Spanish', 'nciglobal, ncispanish-all', 'Dictionary of Cancer Terms - Spanish')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/contactenos', 'Global Pages - Spanish', 'nciglobal, ncispanish-all', 'Contact Page')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/instituto/cis', 'Global Pages - Spanish', 'nciglobal, ncispanish-all', 'Contact Page')
+insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/contactenos/centro-de-contacto', 'Global Pages - Spanish', 'nciglobal, ncispanish-all', 'Contact Page')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/politicas', 'Global Pages - Spanish', 'nciglobal, ncispanish-all', 'Policies')
-insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/global', 'Global Pages - Spanish', 'nciglobal, ncispanish-all', 'Global Landing Page')
-
-
-
 
 
 select 
