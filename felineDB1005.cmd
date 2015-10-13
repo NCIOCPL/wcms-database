@@ -68,6 +68,6 @@ sqlcmd -l 0 -S %1  -E -I -d percussion -i percussion\percReport_PrimaryURL.sql
 sqlcmd -l 0 -S %1  -E -I -d percussion -i percussion\percReport_SecondaryURL.sql
 sqlcmd -l 0 -S %1  -E -I -d percussion -i percussion\convertToArticleNEW.sql
 sqlcmd -l 0 -S %1  -E -I -d percussion -i percussion\NavUpdate.sql
-sqlcmd -l 0 -S %1  -E -I -d percussion -i percussion\updateContentstateID.sql
+
 
 sqlcmd -l 0 -S %1  -E -I -d gatekeeper -i gatekeeper\InsertXMLQuery-SummaryKeyWords.sql
