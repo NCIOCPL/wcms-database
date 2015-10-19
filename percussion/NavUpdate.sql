@@ -87,10 +87,10 @@ insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/esp
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/contactenos/centro-de-contacto', 'Global Pages - Spanish', 'nciglobal,ncispanish-all', 'Contact Page')
 insert into #t (url, channel, suite, [content-group]) values('www.cancer.gov/espanol/politicas', 'Global Pages - Spanish', 'nciglobal,ncispanish-all', 'Policies')
 insert into #t (url, channel, suite, [content-group]) values('ccop.cancer.gov', 'DCP - CCOP', 'ncidcp-cancerprevention', null)
-insert into #t (url, channel, suite, [content-group]) values('dceg.cancer.gov/', 'DCEG - Main', 'ncidceg-cancerepidemiologyandgenetics', null)
-insert into #t (url, channel, suite, [content-group]) values('imaging.cancer.gov/', 'DCTD – Imaging', 'ncidctd-cancertreatmentanddiagnosis', null)
-insert into #t (url, channel, suite, [content-group]) values('proteomics.cancer.gov/', 'CSSI – Proteomics', 'ncicssi-strategicscientificinitiatives', null)
-insert into #t (url, channel, suite, [content-group]) values('cancergenome.nih.gov/', 'CSSI - TCGA', 'ncicssi-strategicscientificinitiatives', null)
+insert into #t (url, channel, suite, [content-group]) values('dceg.cancer.gov', 'DCEG - Main', 'ncidceg-cancerepidemiologyandgenetics', null)
+insert into #t (url, channel, suite, [content-group]) values('imaging.cancer.gov', 'DCTD – Imaging', 'ncidctd-cancertreatmentanddiagnosis', null)
+insert into #t (url, channel, suite, [content-group]) values('proteomics.cancer.gov', 'CSSI – Proteomics', 'ncicssi-strategicscientificinitiatives', null)
+insert into #t (url, channel, suite, [content-group]) values('cancergenome.nih.gov', 'CSSI - TCGA', 'ncicssi-strategicscientificinitiatives', null)
 
 select 
  n.contentid as navonID,  f.CONTENTID as folderID
