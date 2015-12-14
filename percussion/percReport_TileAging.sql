@@ -8,6 +8,7 @@ BEGIN
 			, owner_id, ownertype
 		, case when ownertype like '%Carousel%' then ownertitle else
 		 dbo.percReport_getitemfolderpath(b.owner_id)   END as werePublished
+		 , p.folderpath as ownerITemPath
 		, appeartime
 	    , dbo.percReport_getRemoveDate(contentid, owner_id, b.owner_revision, @starttime,@endtime) as removetime
 				from (
@@ -39,7 +40,9 @@ BEGIN
 									)a
 								group by contentid, title, owner_id, ownertype , ownertitle
 					) b
+						cross apply dbo.gaogetitemfolderpath2(b.owner_id,'') p 
 					where @contentid is null or contentid = @contentid
+				
 					order by b.title, owner_id
 
 END

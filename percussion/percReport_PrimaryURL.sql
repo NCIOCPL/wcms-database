@@ -39,15 +39,15 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 
 
 
-		select c.contentid, left(c.title, (len(c.title)-7))
-		, f.path+ case when p.pretty_url_name is null then '' ELSE '/' + pretty_url_name END as primaryURL
+		select c.contentid, left(c.title, (len(c.title)-7)) as title
+		, f.path+ case dbo.percReport_getPretty_url_name(c.contentid)  when '***' then '' else isnull('/'+ dbo.percReport_getPretty_url_name(c.contentid), '')  END as primaryURL
+		, f.path as itemPath
 		, t.contenttypename
 		from dbo.contentstatus c 
 		inner join PSX_ObjectRelationship r  ON r.dependent_id = c.contentid
 		inner join #folder f on f.id = r.owner_id
 		inner join contenttypes t on t.contenttypeid = c.contenttypeid
-		left outer join CGVPUBLISHEDPAGEMETADATA_CGVPUBLISHEDPAGEMETADATA1 p on p.contentid = c.contentid
-		and p.revisionid = c.public_revision
+		
 		where public_revision is not null and r.config_id =3
 		 and t.contenttypename in 
 						(select contenttypename from dbo.percReport_contenttype
@@ -56,9 +56,9 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 		union all
 
 		select c1.contentid, c1.title
-		, f.path+ case when p.pretty_url_name is null then '' ELSE '/' + pretty_url_name END  
-		+ '/page' + convert(varchar(3),r1.sort_rank +1)
+		, f.path+ case dbo.percReport_getPretty_url_name(c.contentid)  when '***' then '' else isnull('/'+ dbo.percReport_getPretty_url_name(c.contentid), '')  END 
 		 as primaryURL
+		 , f.path
 		, t1.contenttypename
 		from dbo.contentstatus c 
 		inner join PSX_ObjectRelationship r  ON r.dependent_id = c.contentid
