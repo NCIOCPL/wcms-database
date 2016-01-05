@@ -43,33 +43,18 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 		, f.path+ case dbo.percReport_getPretty_url_name(c.contentid)  when '***' then '' else isnull('/'+ dbo.percReport_getPretty_url_name(c.contentid), '')  END as primaryURL
 		, f.path as itemPath
 		, t.contenttypename
+		, s.STATENAME 
 		from dbo.contentstatus c 
 		inner join PSX_ObjectRelationship r  ON r.dependent_id = c.contentid
 		inner join #folder f on f.id = r.owner_id
 		inner join contenttypes t on t.contenttypeid = c.contenttypeid
-		
-		where public_revision is not null and r.config_id =3
+		inner join states s on s.STATEID = c.contentstateid and s.WORKFLOWAPPID = c.WORKFLOWAPPID
+		where 
+		r.config_id =3
 		 and t.contenttypename in 
 						(select contenttypename from dbo.percReport_contenttype
 						where type = 'page')
 		and len(c.title)-7 >= 0
-		union all
-
-		select c1.contentid, c1.title
-		, f.path+ case dbo.percReport_getPretty_url_name(c.contentid)  when '***' then '' else isnull('/'+ dbo.percReport_getPretty_url_name(c.contentid), '')  END 
-		 as primaryURL
-		 , f.path
-		, t1.contenttypename
-		from dbo.contentstatus c 
-		inner join PSX_ObjectRelationship r  ON r.dependent_id = c.contentid
-		inner join #folder f on f.id = r.owner_id
-		inner join CGVPUBLISHEDPAGEMETADATA_CGVPUBLISHEDPAGEMETADATA1 p on p.contentid = c.contentid
-		and p.revisionid = c.public_revision
-		inner join PSX_ObjectRelationship r1 on r1.owner_id = c.contentid and r1.owner_revision = c.public_revision
-		inner join contentstatus c1 on c1.contentid = r1.dependent_id
-		inner join contenttypes t1 on t1.contenttypeid = c1.contenttypeid
-		where  r1.config_id = 112  and c.public_revision is not null and r.config_id =3
-		and c1.public_revision is not null
 		order by 3
 
 END
