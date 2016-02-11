@@ -40,10 +40,17 @@ from 	dbo.Terminology AS T
 	INNER JOIN dbo.ProtocolDrug AS PD
 		ON T.TermID = PD.DrugID
 truncate table dbo.TermDrug 
-INSERT INTO dbo.TermDrug select * from @d ORDER By DrugName
-if @@error <> 0 or @@rowcount < 8000
+if @@error <> 0 
 	begin
 	rollback tran
+	RAISERROR(N'termDrugReload error failed to truncate', 14, 1) with log;
+	return -1001
+	end
+INSERT INTO dbo.TermDrug select * from @d ORDER By DrugName
+if @@error <> 0 
+	begin
+	rollback tran
+	RAISERROR(N'termDrugReload error failed to insert', 14, 1) with log;
 	return -1000
 	end
 commit tran
