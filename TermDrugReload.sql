@@ -43,14 +43,14 @@ truncate table dbo.TermDrug
 if @@error <> 0 
 	begin
 	rollback tran
-	RAISERROR(N'termDrugReload error failed to truncate', 14, 1) with log;
+	RAISERROR(N'termDrugReload error failed to truncate', 16, 1) with log;
 	return -1001
 	end
 INSERT INTO dbo.TermDrug select * from @d ORDER By DrugName
 if @@error <> 0 
 	begin
 	rollback tran
-	RAISERROR(N'termDrugReload error failed to insert', 14, 1) with log;
+	RAISERROR(N'termDrugReload error failed to insert', 16, 1) with log;
 	return -1000
 	end
 commit tran
