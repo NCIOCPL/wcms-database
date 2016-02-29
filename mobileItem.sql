@@ -110,18 +110,15 @@ update PSX_OBJECTRELATIONSHIP set OWNER_ID = @f  where CONFIG_ID = 3 and  DEPEND
 
 ----- delete mobile only slot
 
-delete r 
-from psx_objectrelationship r inner join 
-(select  distinct st.SLOTNAME , st.SLOTID 
-from psx_template t inner join PSX_VARIANT_SITE s on t.TEMPLATE_ID = s.VARIANTID 
-left outer join (RXVARIANTSLOTTYPE  sl 
-inner join RXSLOTTYPE  st on st.SLOTID = sl.SLOTID)  on sl.VARIANTID = t.TEMPLATE_ID 
-where s.SITEID = 465
-except 
-select distinct st.SLOTNAME , st.SLOTID 
-from psx_template t inner join PSX_VARIANT_SITE s on t.TEMPLATE_ID = s.VARIANTID 
-left outer join (RXVARIANTSLOTTYPE  sl 
-inner join RXSLOTTYPE  st on st.SLOTID = sl.SLOTID)  on sl.VARIANTID = t.TEMPLATE_ID 
-where s.SITEID = 305
-) a
-on r.SLOT_ID = a.SLOTID
+delete r
+ from psx_objectrelationship r 
+ inner join rxslottype s on s.slotid = r.SLOT_ID
+ where slotname in (
+ 'cgvMobileBody'
+ ,'cgvMobileCTMoreInfoSl'
+ ,'cgvMobileCTPrvntionListSl'
+ ,'cgvMobileCTTrtmntListSl'
+ ,'cgvMobileFooter'
+ ,'cgvMobileSiteBanner'
+ )
+ 
