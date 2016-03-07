@@ -122,3 +122,14 @@ delete r
  ,'cgvMobileSiteBanner'
  )
  
+ 
+ use PercCancerGov
+
+
+delete from cgvPageMetadata where site = '//Sites/MobileCancerGov'
+delete from gloImageMetaData where site = '//Sites/MobileCancerGov'
+
+delete from cgvstagingPageMetadata where site = '//Sites/MobileCancerGov'
+delete from glostagingImageMetaData where site = '//Sites/MobileCancerGov'
+
+
