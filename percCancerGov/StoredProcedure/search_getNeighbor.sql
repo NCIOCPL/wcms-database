@@ -26,7 +26,7 @@ BEGIN
 			and LANGUAGE = @Language
 			and LEGACY_SEARCH_FILTER like @filter +'%'
 			and LEGACY_SEARCH_FILTER = 
-			(select LEGACY_SEARCH_FILTER from dbo.cgvPageMetadata where CONTENTID = @contentid)
+			(select top 1 LEGACY_SEARCH_FILTER from dbo.cgvPageMetadata where CONTENTID = @contentid)
 			
 		
 			select @r = rownumber from #t 
@@ -53,7 +53,7 @@ BEGIN
 			and LANGUAGE = @Language
 			and LEGACY_SEARCH_FILTER like @filter +'%'
 			and LEGACY_SEARCH_FILTER = 
-			(select LEGACY_SEARCH_FILTER from dbo.cgvstagingPageMetadata where CONTENTID = @contentid)
+			(select top 1 LEGACY_SEARCH_FILTER from dbo.cgvstagingPageMetadata where CONTENTID = @contentid)
 		
 		
 			select @r = rownumber from #t1
