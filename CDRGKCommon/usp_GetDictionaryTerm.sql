@@ -21,13 +21,70 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-	select TermID, TermName, Dictionary, Language, Audience, ApiVers, object
-	from Dictionary
-	where TermID = @TermID
-	  and Dictionary = @Dictionary
-	  and Language = @Language
-	  and Audience = @Audience
-	  and ApiVers = @ApiVers
+	declare @i int 
+
+	declare @termSort TABLE(
+     Dictionary nvarchar(10) NOT NULL,
+     Audience nvarchar(25) NOT NULL,
+     Cycle int NOT NULL
+	)
+ 
+	 INSERT INTO @termSort VALUES 
+	  ('Term', 'Patient', 1)
+	 ,('Term', 'HealthProfessional', 2)
+	 ,('NotSet', 'Patient', 3)
+	 ,('NotSet', 'HealthProfessional', 4)
+	 ,('Genetic', 'Patient', 5)
+	 ,('Genetic', 'HealthProfessional', 6)
+ 
+
+ 	IF exists 
+		(select TermID, TermName, Dictionary, Language, Audience, ApiVers, object
+		from Dictionary
+		where TermID = @TermID
+		  and Dictionary = @Dictionary
+		  and Language = @Language
+		  and Audience = @Audience
+		  and ApiVers = @ApiVers)
+			  select TermID, TermName, Dictionary, Language, Audience, ApiVers, object
+					from Dictionary
+					where TermID = @TermID
+					  and Dictionary = @Dictionary
+					  and Language = @Language
+					  and Audience = @Audience
+					  and ApiVers = @ApiVers
+
+	  ELSE
+			BEGIN
+				select @i = t.Cycle from @termSort t where t.dictionary = @dictionary and t.Audience = @Audience
+				
+				if exists
+				(
+				select TermID, TermName, d.Dictionary, Language, d.Audience, ApiVers, object
+				from Dictionary d inner join @termSort t on d.Dictionary = t.Dictionary and d.Audience = t.Audience
+					where TermID = @TermID
+						and Language = @Language
+						and ApiVers = @ApiVers
+						and t.cycle >= @i 
+					 )
+					 
+					 select top 1 TermID, TermName, d.Dictionary, Language, d.Audience, ApiVers, object
+							from Dictionary d inner join @termSort t on d.Dictionary = t.Dictionary and d.Audience = t.Audience
+							where TermID = @TermID
+								and Language = @Language
+								and ApiVers = @ApiVers
+								and t.cycle > =@i 
+							 order by t.cycle 
+				ELSE
+						select top 1 TermID, TermName, d.Dictionary, Language, d.Audience, ApiVers, object
+							from Dictionary d inner join @termSort t on d.Dictionary = t.Dictionary and d.Audience = t.Audience
+							where TermID = @TermID
+								and Language = @Language
+								and ApiVers = @ApiVers
+								order by cycle 
+						 
+
+			END 
 	
 END
 GO
