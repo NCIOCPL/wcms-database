@@ -23,29 +23,13 @@ BEGIN
 
 	if @dictionary = 'drug'
 	BEGIN
-		if exists 
-		(select TermID, TermName, Dictionary, Language, Audience, ApiVers, object
-		from dbo.dictionary 
-		where TermID = @TermID
-		  and Dictionary = @Dictionary
-		  and Language = @Language
-		  and Audience = @Audience
-		  and ApiVers = @ApiVers
-		  )
-		  select TermID, TermName, Dictionary, Language, Audience, ApiVers, object
-				from dbo.dictionary 
-				where TermID = @TermID
-				  and Dictionary = @Dictionary
-				  and Language = @Language
-				  and Audience = @Audience
-				  and ApiVers = @ApiVers
-		  ELSE 
-			  select top 1 TermID, TermName, Dictionary, Language, Audience, ApiVers, object
+		select top 1 TermID, TermName, Dictionary, Language, Audience, ApiVers, object
 				from dbo.dictionary 
 				where TermID = @TermID
 				  and Dictionary = @Dictionary
 				  and Language = @Language
 				  and ApiVers = @ApiVers
+		order by audience 
 
 		return
 	END
