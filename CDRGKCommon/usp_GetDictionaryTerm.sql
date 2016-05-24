@@ -21,6 +21,36 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
+	if @dictionary = 'drug'
+	BEGIN
+		if exists 
+		(select TermID, TermName, Dictionary, Language, Audience, ApiVers, object
+		from dbo.dictionary 
+		where TermID = @TermID
+		  and Dictionary = @Dictionary
+		  and Language = @Language
+		  and Audience = @Audience
+		  and ApiVers = @ApiVers
+		  )
+		  select TermID, TermName, Dictionary, Language, Audience, ApiVers, object
+				from dbo.dictionary 
+				where TermID = @TermID
+				  and Dictionary = @Dictionary
+				  and Language = @Language
+				  and Audience = @Audience
+				  and ApiVers = @ApiVers
+		  ELSE 
+			  select top 1 TermID, TermName, Dictionary, Language, Audience, ApiVers, object
+				from dbo.dictionary 
+				where TermID = @TermID
+				  and Dictionary = @Dictionary
+				  and Language = @Language
+				  and ApiVers = @ApiVers
+
+		return
+	END
+
+
 	declare @i int 
 
 	declare @termSort TABLE(
@@ -40,7 +70,7 @@ BEGIN
 
  	IF exists 
 		(select TermID, TermName, Dictionary, Language, Audience, ApiVers, object
-		from Dictionary
+		from dbo.Dictionary
 		where TermID = @TermID
 		  and Dictionary = @Dictionary
 		  and Language = @Language
