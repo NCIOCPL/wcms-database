@@ -31,8 +31,6 @@ create table #resultSet(
 	MatchedTermName nvarchar(1000)
 );
 
--- Expand is always based on a begins with match the first letter.
-select @searchText = @searchText + '%';
 
 -- If no includes were specified, then include everything.
 declare @filter_count int;
@@ -55,59 +53,85 @@ begin
 end
 
 
--- Gather up the full set of results.  Don't worry about
--- sorting or limiting to @maxResults yet because we need to
--- find out the total number of possible matches too.
--- Prepending begins vs contains provides a means of ordering them
--- for the "magic" search type.
+--# for name starting with number and symbol
+if @searchText = '[0-9]'
+	BEGIN
+		insert into #resultSet(Termid, matchedTErmName)
+		select termid , termname 
+		from dbo.dictionary with (nolock)
+		where termname not like '[a-zA-Z]%'
+		and language = @Language
+		and Dictionary = @Dictionary
+		union
+		select d.TermID, dta.OtherName
+		from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
+			and dta.OtherNameType in (select NameType from @filter)
+		where dta.OtherName not like '[a-zA-Z]%'
+			and d.Language = @language
+			and d.Dictionary = @dictionary
 
--- spanish accent insensitive
+	END
 
-IF @language = 'english'
-		BEGIN
-			insert #resultSet (TermID, MatchedTermName)
-			(
-				-- Match term name beginning with @searchText
-				select TermID, TermName
-				from Dictionary with (nolock)
-				where TermName like @searchText
-				  and Language = @language
-				  and Dictionary = @dictionary
+ELSE
+
+	BEGIN
+		-- Expand is always based on a begins with match the first letter.
+		select @searchText = @searchText + '%';
+
+
+		-- Gather up the full set of results.  Don't worry about
+		-- sorting or limiting to @maxResults yet because we need to
+		-- find out the total number of possible matches too.
+		-- Prepending begins vs contains provides a means of ordering them
+		-- for the "magic" search type.
+
+		-- spanish accent insensitive
+
+		IF @language = 'english'
+				BEGIN
+					insert #resultSet (TermID, MatchedTermName)
+					(
+						-- Match term name beginning with @searchText
+						select TermID, TermName
+						from Dictionary with (nolock)
+						where TermName like @searchText
+						  and Language = @language
+						  and Dictionary = @dictionary
 			  
-			  union
+					  union
 
-				-- Match alternate name beginning with @searchText
-				select d.TermID, dta.OtherName
-				from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
-					and dta.OtherNameType in (select NameType from @filter)
-				where dta.OtherName like @searchText
-				  and d.Language = @language
-				  and d.Dictionary = @dictionary
-			)
-		END
-	ELSE
-		BEGIN
-			insert #resultSet (TermID, MatchedTermName)
-			(
-				-- Match term name beginning with @searchText
-				select TermID, TermName
-				from Dictionary with (nolock)
-				where TermName  collate modern_spanish_CI_AI like @searchText
-				  and Language = @language
-				  and Dictionary = @dictionary
+						-- Match alternate name beginning with @searchText
+						select d.TermID, dta.OtherName
+						from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
+							and dta.OtherNameType in (select NameType from @filter)
+						where dta.OtherName like @searchText
+						  and d.Language = @language
+						  and d.Dictionary = @dictionary
+					)
+				END
+			ELSE
+				BEGIN
+					insert #resultSet (TermID, MatchedTermName)
+					(
+						-- Match term name beginning with @searchText
+						select TermID, TermName
+						from Dictionary with (nolock)
+						where TermName  collate modern_spanish_CI_AI like @searchText
+						  and Language = @language
+						  and Dictionary = @dictionary
 			  
-			  union
+					  union
 
-				-- Match alternate name beginning with @searchText
-				select d.TermID, dta.OtherName
-				from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
-					and dta.OtherNameType in (select NameType from @filter)
-				where dta.OtherName  collate modern_spanish_CI_AI  like @searchText
-				  and d.Language = @language
-				  and d.Dictionary = @dictionary
-			)
-		END
-		
+						-- Match alternate name beginning with @searchText
+						select d.TermID, dta.OtherName
+						from Dictionary d with (nolock) join DictionaryTermAlias dta with (nolock) on d.TermID = dta.TermID
+							and dta.OtherNameType in (select NameType from @filter)
+						where dta.OtherName  collate modern_spanish_CI_AI  like @searchText
+						  and d.Language = @language
+						  and d.Dictionary = @dictionary
+					)
+				END
+	 END	
 -- Get the number of results matching the search criteria.
 select @matchCount = @@RowCount
 
