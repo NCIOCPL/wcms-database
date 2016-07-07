@@ -1,3 +1,6 @@
+if object_id('communityMap') is not null
+	drop table communityMap
+
 create table dbo.communityMap (communityid int, mappedCommunityid int)
 
 insert into communityMap
