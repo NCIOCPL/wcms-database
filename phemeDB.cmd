@@ -1,0 +1,10 @@
+sqlcmd -l 0 -S %1  -E -I -d perCancergov -i perCancergov\alterTable.sql
+sqlcmd -l 0 -S %1  -E -I -d perCancergov -i perCancergov\search_getNeighbor.sql
+sqlcmd -l 0 -S %1  -E -I -d perCancergov -i perCancergov\taxonomySplit.sql
+sqlcmd -l 0 -S %1  -E -I -d perCancergov -i perCancergov\taxonomy_getMonthlyAgg.sql
+sqlcmd -l 0 -S %1  -E -I -d perCancergov -i perCancergov\taxonomy_getTaxonLabel.sql
+sqlcmd -l 0 -S %1  -E -I -d perCancergov -i perCancergov\taxonomy_getTaxons.sql
+sqlcmd -l 0 -S %1  -E -I -d perCancergov -i perCancergov\tr_taxonomyInsert.sql
+sqlcmd -l 0 -S %1  -E -I -d perCancergov -i perCancergov\tr_taxonomyInsert_staging.sql
+sqlcmd -l 0 -S %1  -E -I -d perCancergov -i perCancergov\tr_taxonomyUpt.sql
+sqlcmd -l 0 -S %1  -E -I -d perCancergov -i perCancergov\tr_taxonomyUpt_staging.sql
