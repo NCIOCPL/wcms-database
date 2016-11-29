@@ -8,6 +8,9 @@ BEGIN
 declare @i smallint
 declare @y table (y smallint)
 declare @m table(m smallint)
+Declare @t table (year int, month int, total int, c int)
+
+
 select @i = 1
 while @i <13
 	BEGIN
@@ -25,8 +28,10 @@ while @i <1
 	END
 
 
+
 if @isLive =1 
-	select y as year,m as month,   count(b.legacy_search_filter) as total
+	insert into @t
+	select y as year,m as month,   count(b.legacy_search_filter) as total, row_number() over (order by y, m) as c
 	from  @y t cross join @m m  
 	left outer join cgvPageSearch  b on datepart(year, b.date) = t.y and datepart( month, b.[date]) = m.m
 	and legacy_search_filter in (select * from [dbo].[udf_StringSplit](@searchFilter,',') )
@@ -34,13 +39,18 @@ if @isLive =1
 	group by y,m
 	order by 1 desc,2 desc
 else 
-	select y as year,m as month,   count(b.legacy_search_filter) as total
+	insert into @t
+	select y as year,m as month,   count(b.legacy_search_filter) as total, row_number() over (order by y, m) as c
 	from  @y t cross join @m m  
 	left outer join cgvStagingPageSearch  b on datepart(year, b.date) = t.y and datepart( month, b.[date]) = m.m
 	and legacy_search_filter in (select * from [dbo].[udf_StringSplit](@searchFilter,',') )
 	where (t.y < datepart(year, getdate()) or (t.y = datepart(year, getdate()) and  m.m <= datepart(month, getdate())))
 	group by y,m
 	order by 1 desc,2 desc
+
+select year, month, total  from @t
+where c > = (select min(c) from @t where total >0 )
+order by year desc, month desc
 
 END
 
