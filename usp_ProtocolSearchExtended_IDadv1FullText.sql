@@ -406,7 +406,7 @@ BEGIN
    -- Get System Cache into Result Table  
   
    INSERT INTO #result     
-   SELECT  ProtocolID , null  
+   SELECT  distinct ProtocolID , null  
    FROM  dbo.ProtocolSearchSysCache WITH (READUNCOMMITTED)  
    WHERE  ProtocolSearchID = @SysProtocolSearchID  
   END  
