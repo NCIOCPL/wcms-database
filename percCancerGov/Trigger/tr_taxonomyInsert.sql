@@ -10,8 +10,8 @@ IF (@@ROWCOUNT = 0)
 
 SET NOCOUNT ON
 			if exists (select * from inserted where taxonomytag is not null)
-					insert into cgvTaxonRelation (contentid, taxonomyName , taxonID )
-					select i.CONTENTID , s.taxonomyname, s.taxonid 
+					insert into cgvTaxonRelation (contentid, taxonomyName , taxonID, taxonLabel )
+					select i.CONTENTID , s.taxonomyname, s.taxonid ,s.taxonLabel
 					from inserted i 
 					 cross apply dbo.taxonomySplit (i.taxonomytag) s
 		
