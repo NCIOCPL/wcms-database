@@ -124,7 +124,7 @@ BEGIN
 		select @where =  case when @where is null then '' else @where  + ' AND ' END +  ' date_first_published  > =  ''' + convert(nvarchar(20), @startDate) + ''''
 
 	if @Enddate is not null
-		select @where = case when @where is null then '' else @where  + ' AND ' END +  ' date_first_published  <  ''' + convert(nvarchar(20), @EndDate) + ''''
+		select @where = case when @where is null then '' else @where  + ' AND ' END +  ' date_first_published  <= ''' + convert(nvarchar(20), @EndDate) + ''''
 
 	---SortOrder
 	--
