@@ -4,6 +4,7 @@ GO
 Create procedure dbo.ct_getPrintResultCache(@printid uniqueidentifier)
 AS
 BEGIN
+	set nocount on 
 	select top 1 content from dbo.ctPrintResultCache where printid = @printid 
 END
 GO
