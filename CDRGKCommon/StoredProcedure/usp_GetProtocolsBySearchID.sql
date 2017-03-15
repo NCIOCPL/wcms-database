@@ -49,8 +49,8 @@ BEGIN
 	DECLARE @TempProto TABLE (		
 			ResultNumber int identity(1,1),
 			ProtocolID int,
-			ProtocolTitle varchar(1000), 
-			AlternateTitle varchar(1000),
+			ProtocolTitle nvarchar(1000), 
+			AlternateTitle nvarchar(1000),
 			-- ProtocolTitle varchar(1000),
 			TypeOfTrial varchar(255),
 			LowAge int,
