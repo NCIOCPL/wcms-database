@@ -43,14 +43,36 @@ BEGIN
      Cycle int NOT NULL
 	)
  
-	 INSERT INTO @termSort VALUES 
-	  ('Term', 'Patient', 1)
-	 ,('Term', 'HealthProfessional', 2)
-	 ,('NotSet', 'Patient', 3)
-	 ,('NotSet', 'HealthProfessional', 4)
-	 ,('Genetic', 'Patient', 5)
-	 ,('Genetic', 'HealthProfessional', 6)
- 
+
+	if @audience = 'Patient'
+		 INSERT INTO @termSort VALUES 
+		  ('Term', 'Patient', 1)
+		 ,('Term', 'HealthProfessional', 2)
+		 ,('NotSet', 'Patient', 3)
+		 ,('NotSet', 'HealthProfessional', 4)
+		 ,('Genetic', 'Patient', 5)
+		 ,('Genetic', 'HealthProfessional', 6)
+	ELSE
+		if @audience = 'HealthProfessional' and @dictionary <> 'Genetic'
+			INSERT INTO @termSort VALUES
+				 ('NotSet', 'HealthProfessional', 1)
+				,('NotSet', 'Patient', 2)
+				,('Genetic', 'HealthProfessional', 3)
+				,('Genetic', 'Patient', 4)
+				,('Term', 'HealthProfessional', 5)
+				,('Term', 'Patient', 6)
+			ELSE
+				if @audience = 'HealthProfessional' and @dictionary = 'Genetic'		
+				INSERT INTO @termSort VALUES
+					 ('Genetic', 'HealthProfessional', 1)
+					,('Genetic', 'Patient', 2)
+					,('Term', 'HealthProfessional', 3)
+					,('Term', 'Patient', 4)
+					,('NotSet', 'HealthProfessional', 5)
+					,('NotSet', 'Patient', 6)
+
+
+
 
  	IF exists 
 		(select TermID, TermName, Dictionary, Language, Audience, ApiVers, object
