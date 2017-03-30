@@ -1,5 +1,5 @@
-
-drop procedure dbo.ct_cleanprintresultcache
+if Object_id('ct_cleanprintresultcache') is not null
+    drop procedure dbo.ct_cleanprintresultcache
 go
 create procedure dbo.ct_cleanprintresultcache
 as
