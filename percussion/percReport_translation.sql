@@ -27,7 +27,10 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 				insert into #folder
 			  select ID, path  from folders
 
-		select 
+select * from
+	  (
+		select distinct 
+		(select contenttypename from contenttypes where contenttypeid = c.contenttypeid) as englishcontenttype,
 		c.contentid as EnglishContentid, c.title as EnglishTitle
 		, case    
 		   when  dbo.percReport_getpretty_url_name(c.contentid) = '***'   
@@ -42,7 +45,7 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 		, f.path as englishItemPath
 		,c. contentcreateddate as EnglishCreateDate
 		,c. contentlastmodifieddate as EnglishLastModifyDate
-		, c.locale
+		, c.locale as englishlocale
 		,d.contentid as SpanishContentid, d.title as SpanishTitle
 		, case    
 		   when  dbo.percReport_getpretty_url_name(d.contentid) = '***'   
@@ -58,6 +61,7 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 		,d. contentcreateddate as SpanishCreatedate
 		,d. contentlastmodifieddate as SpanishLastModifydate
 		, d.locale
+		,(select contenttypename from contenttypes where contenttypeid = d.contenttypeid) as contenttype
 		from dbo.contentstatus c inner join dbo.psx_objectrelationship ff on c.contentid = ff.dependent_id and config_id = 3
 		and c.locale = 'en-us'
 		inner join #folder f on f.id = ff.owner_id
@@ -67,9 +71,10 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 					or r.owner_revision = c.editrevision
 					)
 		inner join dbo.contentstatus d on d.contentid = r.dependent_id and r.config_id in (6,7)
-		cross apply dbo.gaogetitemfolderpath2(d.contentid,'') p 
+		cross apply dbo.gaogetitemfolderpath2(d.contentid,'cancergov') p 
 		union 
-		select
+		select distinct 
+		(select contenttypename from contenttypes where contenttypeid = o.contenttypeid) as contenttype,
 		o.contentid, o.title
 		, case    
 		   when  dbo.percReport_getpretty_url_name(o.contentid) = '***'   
@@ -84,7 +89,7 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 
 		,o. contentcreateddate
 		,o. contentlastmodifieddate
-		, o.locale
+		, o.locale 
 		,c.contentid, c.title
 		, case    
 		   when  dbo.percReport_getpretty_url_name(c.contentid) = '***'   
@@ -99,13 +104,16 @@ select @folderpath = dbo.percReport_getFolderpath(@folderid)
 		,c. contentcreateddate
 		,c. contentlastmodifieddate
 		, c.locale
+		,(select contenttypename from contenttypes where contenttypeid = c.contenttypeid) as contenttype
 		from dbo.contentstatus c inner join dbo.psx_objectrelationship ff on c.contentid = ff.dependent_id and config_id = 3
 		and c.locale = 'es-us'
 		inner join #folder f on f.id = ff.owner_id
 		inner join dbo.psx_objectrelationship r on c.contentid = r.dependent_id and r.config_id in (6,7)
 		inner join dbo.contentstatus o on 
 			o.contentid = r.owner_id and (r.owner_revision = -1 or r.owner_revision = o.public_revision)
-			cross apply dbo.gaogetitemfolderpath2(o.contentid,'') p 
-		order by 3
+			cross apply dbo.gaogetitemfolderpath2(o.contentid,'cancergov') p 
+	)a 
+	where EnglishPrettyurl is not null
+	order by 4
 
 END
