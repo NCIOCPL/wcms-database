@@ -5,7 +5,7 @@ create procedure dbo.percReport_SecondaryURl (@folderID int, @allfolder bit,@sit
 as
 BEGIN
 	
-	create table #primaryURL (contentid int, title varchar(255), primaryurl varchar(500), itempath varchar(2000),contenttype varchar(255))
+	create table #primaryURL (contentid int, title varchar(255), primaryurl varchar(500), itempath varchar(2000),contenttype varchar(255), STATENAME nvarchar(100))
 	insert into #primaryURL exec percReport_PrimaryURL  @folderID, @allfolder
 
 	select  contentid, title, primaryurl, itempath 
