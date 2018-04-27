@@ -43,6 +43,7 @@ IF @Language = 'English'
 				)
 		) filtered
 		where row > @offset -- Use > because offset is zero-based but row is one-based
+		order by row 
 
 		-- To get the total match count, we re-run the query without a row limit.
 		select @matchCount = COUNT(*)
@@ -74,6 +75,7 @@ ELSE
 				)
 		) filtered
 		where row > @offset -- Use > because offset is zero-based but row is one-based
+		order by row
 
 		-- To get the total match count, we re-run the query without a row limit.
 		select @matchCount = COUNT(*)
